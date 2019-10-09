@@ -12,6 +12,7 @@ public class User implements Parcelable {
     private String password;
     private ArrayList<Task> tasks;
     private ArrayList<Board> boards;
+    private ArrayList<Notification> notifications;
 
     public User(String name, String surname, String email, String password) {
         this.name = name;
@@ -20,6 +21,7 @@ public class User implements Parcelable {
         this.password = password;
         this.tasks = new ArrayList<Task>();
         this.boards= new ArrayList<Board>();
+        this.notifications = new ArrayList<>();
     }
 
     private User(Parcel in) {
@@ -29,6 +31,7 @@ public class User implements Parcelable {
         this.password = in.readString();
         this.tasks = in.readArrayList(null);
         this.boards = in.readArrayList(null);
+        this.notifications = in.readArrayList(null);
     }
 
     @Override
@@ -65,6 +68,18 @@ public class User implements Parcelable {
 
     public void addBoard(Board board) {
         this.boards.add(board);
+    }
+
+    public void addNotification(Notification notification) {
+        this.notifications.add(notification);
+    }
+
+    public ArrayList<Notification> getNotifications() {
+        return this.notifications;
+    }
+
+    public Notification getNotification(int position) {
+        return this.notifications.get(position);
     }
 
     public static final Parcelable.Creator<User> CREATOR

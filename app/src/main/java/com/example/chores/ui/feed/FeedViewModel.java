@@ -24,11 +24,13 @@ public class FeedViewModel extends ViewModel {
         Board board = new Board("Chores", alice);
         Task task= new Task("Buy Bread", alice, "not done", board);
 
-        notifs = new ArrayList<>();
+        ArrayList<Notification> notifs = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            notifs.add(new Notification(alice, board, Notification.Type.BOARD_CREATED));
+            hostUser.addNotification(new Notification(alice, board, task, Notification.Type.TASK_CREATED));
         }
+
+
     }
 
     public LiveData<String> getText() {
@@ -36,6 +38,10 @@ public class FeedViewModel extends ViewModel {
     }
 
     public ArrayList<Notification> getNotifications() {
-        return notifs;
+        return hostUser.getNotifications();
+    }
+
+    public Notification getNotification(int position) {
+        return this.hostUser.getNotification(position);
     }
 }
