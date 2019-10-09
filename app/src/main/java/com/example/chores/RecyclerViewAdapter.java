@@ -10,16 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.classes.Board;
+import com.example.chores.classes.Notification;
 import com.example.chores.classes.Test;
 
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MainViewHolder> {
-    private ArrayList<Board> data;
+    private ArrayList<Notification> data;
 
     private ItemClickListener itemClickListener;
 
-    public RecyclerViewAdapter(ArrayList<Board> data, ItemClickListener itemClickListener) {
+    public RecyclerViewAdapter(ArrayList<Notification> data, ItemClickListener itemClickListener) {
         super();
         this.data = data;
         this.itemClickListener = itemClickListener;
@@ -41,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, final int position) {
-        holder.textViewA.setText(data.get(position).getName());
+        holder.textViewA.setText(data.get(position).toString());
     }
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
