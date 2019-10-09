@@ -8,10 +8,10 @@
     <string name="action_settings" translatable="false">Settings</string>
 
     <string name="menu_feed" translatable="false">Feed</string>
-    <string name="menu_gallery" translatable="false">Gallery</string>
+    <string name="menu_boards" translatable="false">Boards</string>
     <string name="menu_slideshow" translatable="false">Slideshow</string>
-    <string name="menu_tools" translatable="false">Tools</string>
-    <string name="menu_share" translatable="false">Share</string>
+    <string name="menu_tasks" translatable="false">Tasks</string>
+    <string name="menu_profile" translatable="false">Profile</string>
     <string name="menu_send" translatable="false">Send</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
