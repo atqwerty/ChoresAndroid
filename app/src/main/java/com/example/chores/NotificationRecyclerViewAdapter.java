@@ -9,18 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chores.classes.Board;
 import com.example.chores.classes.Notification;
-import com.example.chores.classes.Test;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MainViewHolder> {
+public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.MainViewHolder> {
     private ArrayList<Notification> data;
 
     private ItemClickListener itemClickListener;
 
-    public RecyclerViewAdapter(ArrayList<Notification> data, ItemClickListener itemClickListener) {
+    public NotificationRecyclerViewAdapter(ArrayList<Notification> data, ItemClickListener itemClickListener) {
         super();
         this.data = data;
         this.itemClickListener = itemClickListener;

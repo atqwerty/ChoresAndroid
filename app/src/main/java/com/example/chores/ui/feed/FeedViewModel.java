@@ -20,24 +20,6 @@ public class FeedViewModel extends ViewModel {
     private User currentUser;
 
     public FeedViewModel() {
-        mText = new MutableLiveData<>();
-        User alice = new User("Alice", "Dude", "aliceD@gmail.com", "1234");
-        Board board = new Board("Chores", alice);
-        Task task= new Task("Buy Bread", alice, "not done", board);
-
-        ArrayList<Notification> notifs = new ArrayList<>();
-
-//        for (int i = 0; i < 3; i++) {
-//            hostUser.addNotification(new Notification(alice, board, task, Notification.Type.TASK_CREATED));
-//        }
-
-
-    }
-
-    public void init()
-    {
-//        currentUser = new MutableLiveData<>();
-
     }
 
     public void sendData(User incomingUser) {
@@ -56,8 +38,4 @@ public class FeedViewModel extends ViewModel {
     public ArrayList<Notification> getNotifications() {
         return this.currentUser.getNotifications();
     }
-
-//    public Notification getNotification(int position) {
-//        return this.hostUser.getNotification(position);
-//    }
 }

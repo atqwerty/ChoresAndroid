@@ -6,6 +6,7 @@ import com.example.chores.classes.Board;
 import com.example.chores.classes.Notification;
 import com.example.chores.classes.Task;
 import com.example.chores.classes.User;
+import com.example.chores.ui.boards.BoardsViewModel;
 import com.example.chores.ui.feed.FeedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         User alice = new User("Alice", "Dude", "aliceD@gmail.com", "1234");
         Board board = new Board("Chores", alice);
+        currentUser.addBoard(board);
 
         currentUser.addNotification(new Notification(alice, board, Notification.Type.BOARD_CREATED));
 
@@ -53,11 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
         board.addParticipants(currentUser);
 
-//        currentUser.addNotification(new Notification(alice, board, Notification.Type.USER_ASSIGNED));
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-//        LinearLayout navigationViewHeader = findViewById(R.id.nav_view_header);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
         username.setText(currentUser.getName() + " " + currentUser.getSurname().charAt(0));
         email.setText(currentUser.getEmail());
 
-//      Passing each menu ID as a set of Ids because each
-//      menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_feed, R.id.nav_boards, R.id.nav_tasks,
                 R.id.nav_profile)
@@ -86,10 +83,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        Handler handler = new Handler();
         FeedViewModel fvm = ViewModelProviders.of(this).get(FeedViewModel.class);
-        fvm.init();
+        BoardsViewModel bvm = ViewModelProviders.of(this).get(BoardsViewModel.class);
+
         fvm.sendData(currentUser);
+        bvm.sendData(currentUser.getBoards());
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);

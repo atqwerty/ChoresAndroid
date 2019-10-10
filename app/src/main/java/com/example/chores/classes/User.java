@@ -74,6 +74,10 @@ public class User implements Parcelable {
         this.boards.add(board);
     }
 
+    public ArrayList<Board> getBoards() {
+        return this.boards;
+    }
+
     public void addNotification(Notification notification) {
         this.notifications.add(0, notification);
     }

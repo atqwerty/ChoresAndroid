@@ -2,44 +2,34 @@ package com.example.chores.ui.feed;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.R;
-import com.example.chores.RecyclerViewAdapter;
-import com.example.chores.ativities.BoardActivity;
-import com.example.chores.classes.Board;
+import com.example.chores.NotificationRecyclerViewAdapter;
+import com.example.chores.ativities.NotificationActivity;
 import com.example.chores.classes.Notification;
-import com.example.chores.classes.Test;
 import com.example.chores.classes.User;
-
-import java.util.ArrayList;
 
 public class FeedFragment extends Fragment {
 
     private FeedViewModel feedViewModel;
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter adapter;
+    private NotificationRecyclerViewAdapter adapter;
     View root;
 
-    private RecyclerViewAdapter.ItemClickListener itemClickListener = new RecyclerViewAdapter.ItemClickListener() {
+    private NotificationRecyclerViewAdapter.ItemClickListener itemClickListener = new NotificationRecyclerViewAdapter.ItemClickListener() {
         @Override
         public void onItemClick(Notification notification, int position) {
-            Intent intent = new Intent(getActivity(), BoardActivity.class);
+            Intent intent = new Intent(getActivity(), NotificationActivity.class);
             intent.putExtra("notif", notification.toString());
             startActivity(intent);
         }
@@ -52,10 +42,10 @@ public class FeedFragment extends Fragment {
         feedViewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
         User a = ViewModelProviders.of(getActivity()).get(FeedViewModel.class).getUser();
 
-        recyclerView = root.findViewById(R.id.recycledView);
+        recyclerView = root.findViewById(R.id.recycledViewFeed);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new RecyclerViewAdapter(a.getNotifications(), itemClickListener);
+        adapter = new NotificationRecyclerViewAdapter(a.getNotifications(), itemClickListener);
         recyclerView.setAdapter(adapter);
 
         return root;
