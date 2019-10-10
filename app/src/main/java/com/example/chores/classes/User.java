@@ -19,19 +19,23 @@ public class User implements Parcelable {
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.tasks = new ArrayList<Task>();
-        this.boards= new ArrayList<Board>();
+        this.tasks = new ArrayList<>();
+        this.boards= new ArrayList<>();
         this.notifications = new ArrayList<>();
     }
 
     private User(Parcel in) {
+        ArrayList<Notification> a = new ArrayList<>();
+        ArrayList<Task> b = new ArrayList<>();
+        ArrayList<Board> c = new ArrayList<>();
+
         this.name = in.readString();
         this.surname = in.readString();
         this.email = in.readString();
         this.password = in.readString();
-        this.tasks = in.readArrayList(null);
-        this.boards = in.readArrayList(null);
-        this.notifications = in.readArrayList(null);
+        this.tasks = in.readArrayList(b.getClass().getClassLoader());
+        this.boards = in.readArrayList(c.getClass().getClassLoader());
+        this.notifications = in.readArrayList(a.getClass().getClassLoader());
     }
 
     @Override

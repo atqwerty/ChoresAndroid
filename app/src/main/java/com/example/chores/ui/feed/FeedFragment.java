@@ -40,7 +40,7 @@ public class FeedFragment extends Fragment {
         @Override
         public void onItemClick(Notification notification, int position) {
             Intent intent = new Intent(getActivity(), BoardActivity.class);
-            intent.putExtra(notification.toString(), notification);
+            intent.putExtra("notif", notification.toString());
             startActivity(intent);
         }
     };

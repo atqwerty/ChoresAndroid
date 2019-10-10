@@ -34,9 +34,9 @@ public class Board implements Parcelable {
     private Board(Parcel in) {
         this.name = in.readString();
         this.host = in.readParcelable(User.class.getClassLoader());
-        this.participants = in.readArrayList(null);
-        this.statuses = in.readArrayList(null);
-        this.tasks = in.readArrayList(null);
+//        this.participants = in.readArrayList(User.class.getClassLoader());
+//        this.statuses = in.readArrayList(ArrayList.class.getClassLoader());
+//        this.tasks = in.readArrayList(ArrayList.class.getClassLoader());
     }
 
     @Override

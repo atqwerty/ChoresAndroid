@@ -49,10 +49,10 @@ public class Task implements Parcelable {
 
     private Task(Parcel in) {
         this.name = in.readString();
-        this.host = in.readParcelable(null);
+        this.host = in.readParcelable(User.class.getClassLoader());
         this.status= in.readString();
-        this.board = in.readParcelable(null);
-        this.usersToDo = in.readArrayList(null);
+        this.board = in.readParcelable(Board.class.getClassLoader());
+        this.usersToDo = in.readArrayList(ArrayList.class.getClassLoader());
         this.description= in.readString();
     }
 

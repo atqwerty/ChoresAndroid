@@ -3,7 +3,9 @@ package com.example.chores.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Notification  implements Parcelable {
+import java.util.ArrayList;
+
+public class Notification{
     public enum Type implements Parcelable {
         TASK_CREATED("TASK_CREATED"),
         TASK_EDITED("TASK_EDITED"),
@@ -69,31 +71,32 @@ public class Notification  implements Parcelable {
         this.type = type;
     }
 
-    private Notification(Parcel in) {
-        this.host = in.readParcelable(null);
-        this.board= in.readParcelable(null);
-        this.task = in.readParcelable(null);
-        this.type = in.readParcelable(null);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeParcelable(this.host, 1);
-        parcel.writeParcelable(this.board, 1);
-
-        if (!this.task.equals(null)) {
-            parcel.writeParcelable(this.task, 1);
-        }
-
-
-        parcel.writeParcelable(this.type, 1);
-
-    }
+//    private Notification(Parcel in) {
+//
+//        this.host = in.readParcelable(User.class.getClassLoader());
+//        this.board= in.readParcelable(Board.class.getClassLoader());
+//        this.task = in.readParcelable(Task.class.getClassLoader());
+//        this.type = in.readParcelable(Type.class.getClassLoader());
+//    }
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel parcel, int flags) {
+//        parcel.writeParcelable(this.host, 1);
+//        parcel.writeParcelable(this.board, 1);
+//
+//        if (!this.task.equals(null)) {
+//            parcel.writeParcelable(this.task, 1);
+//        }
+//
+//
+//        parcel.writeParcelable(this.type, 1);
+//
+//    }
 
 
     public Board getBoard() {
@@ -127,17 +130,17 @@ public class Notification  implements Parcelable {
         return null;
     }
 
-    public static final Parcelable.Creator<Notification> CREATOR
-            = new Parcelable.Creator<Notification>() {
-
-        @Override
-        public Notification createFromParcel(Parcel in) {
-            return new Notification(in);
-        }
-
-        @Override
-        public Notification[] newArray(int size) {
-            return new Notification[size];
-        }
-    };
+//    public static final Parcelable.Creator<Notification> CREATOR
+//            = new Parcelable.Creator<Notification>() {
+//
+//        @Override
+//        public Notification createFromParcel(Parcel in) {
+//            return new Notification(in);
+//        }
+//
+//        @Override
+//        public Notification[] newArray(int size) {
+//            return new Notification[size];
+//        }
+//    };
 }
