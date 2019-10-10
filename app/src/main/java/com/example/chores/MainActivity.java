@@ -45,13 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
         User alice = new User("Alice", "Dude", "aliceD@gmail.com", "1234");
         Board board = new Board("Chores", alice);
-        Task task= new Task("Buy Bread lul", alice, "not done", board);
 
-        ArrayList<Notification> notifs = new ArrayList<>();
+        currentUser.addNotification(new Notification(alice, board, Notification.Type.BOARD_CREATED));
 
-        for (int i = 0; i < 3; i++) {
-            currentUser.addNotification(new Notification(alice, board, task, Notification.Type.TASK_CREATED));
-        }
+        Task task = new Task("Buy Bread lul", alice, "not done", board);
+        currentUser.addNotification(new Notification(alice, board, task, Notification.Type.TASK_CREATED));
+
+        board.addParticipants(currentUser);
+
+//        currentUser.addNotification(new Notification(alice, board, Notification.Type.USER_ASSIGNED));
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);

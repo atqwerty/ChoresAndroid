@@ -71,7 +71,7 @@ public class User implements Parcelable {
     }
 
     public void addNotification(Notification notification) {
-        this.notifications.add(notification);
+        this.notifications.add(0, notification);
     }
 
     public ArrayList<Notification> getNotifications() {

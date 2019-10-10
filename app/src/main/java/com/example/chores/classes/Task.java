@@ -46,8 +46,6 @@ public class Task {
         this.board = board;
         this.usersToDo = new ArrayList<>(usersToDo);
         this.description = description;
-
-        this.created();
     }
 
     public String getName() {

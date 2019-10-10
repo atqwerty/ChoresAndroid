@@ -19,6 +19,7 @@ public class Board implements Parcelable {
         this.participants = new ArrayList<>();
         this.statuses= new ArrayList<>();
         this.tasks= new ArrayList<>();
+        this.participants.add(host);
     }
 
     public Board(String name, User host, String description) {
