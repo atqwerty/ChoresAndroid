@@ -43,6 +43,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, final int position) {
         holder.textViewA.setText(data.get(position).toString());
+
+        holder.setItemClick(data.get(position));
+
     }
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
@@ -56,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             textViewA = itemView.findViewById(R.id.textViewA);
         }
 
-        public void setItemClick(final Board item) {
+        public void setItemClick(final Notification item) {
             this.feed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -70,6 +73,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public interface ItemClickListener {
 
-        void onItemClick(Board board, int position);
+        void onItemClick(Notification notification, int position);
     }
 }

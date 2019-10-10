@@ -1,8 +1,11 @@
 package com.example.chores.classes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class Task {
+public class Task implements Parcelable {
     private String name;
     private User host;
     private String status;
@@ -24,8 +27,6 @@ public class Task {
         this.status = status;
         this.board = board;
         this.description = description;
-
-        this.created();
     }
 
     public Task(String name, User host, String status, Board board, ArrayList<User> usersToDo) {
@@ -34,8 +35,6 @@ public class Task {
         this.status = status;
         this.board = board;
         this.usersToDo = new ArrayList<>(usersToDo);
-
-        this.created();
     }
 
     public Task(String name, User host, String status, Board board, ArrayList<User> usersToDo,
@@ -46,6 +45,31 @@ public class Task {
         this.board = board;
         this.usersToDo = new ArrayList<>(usersToDo);
         this.description = description;
+    }
+
+    private Task(Parcel in) {
+        this.name = in.readString();
+        this.host = in.readParcelable(null);
+        this.status= in.readString();
+        this.board = in.readParcelable(null);
+        this.usersToDo = in.readArrayList(null);
+        this.description= in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(this.name);
+        parcel.writeParcelable(this.host, 1);
+        parcel.writeString(this.status);
+        parcel.writeParcelable(this.board, 1);
+        parcel.writeList(this.usersToDo);
+        parcel.writeString(this.description);
+
     }
 
     public String getName() {
@@ -102,7 +126,17 @@ public class Task {
         return new Notification(changer, this.board, this, Notification.Type.TASK_EDITED);
     }
 
-    private Notification created() {
-        return new Notification(this.host, this.board, this, Notification.Type.TASK_CREATED);
-    }
+    public static final Parcelable.Creator<Task> CREATOR
+            = new Parcelable.Creator<Task>() {
+
+        @Override
+        public Task createFromParcel(Parcel in) {
+            return new Task(in);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
 }

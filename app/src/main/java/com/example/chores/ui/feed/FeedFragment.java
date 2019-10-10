@@ -23,6 +23,7 @@ import com.example.chores.R;
 import com.example.chores.RecyclerViewAdapter;
 import com.example.chores.ativities.BoardActivity;
 import com.example.chores.classes.Board;
+import com.example.chores.classes.Notification;
 import com.example.chores.classes.Test;
 import com.example.chores.classes.User;
 
@@ -37,24 +38,16 @@ public class FeedFragment extends Fragment {
 
     private RecyclerViewAdapter.ItemClickListener itemClickListener = new RecyclerViewAdapter.ItemClickListener() {
         @Override
-        public void onItemClick(Board item, int position) {
+        public void onItemClick(Notification notification, int position) {
             Intent intent = new Intent(getActivity(), BoardActivity.class);
-            intent.putExtra(item.getName(), item);
+            intent.putExtra(notification.toString(), notification);
             startActivity(intent);
         }
     };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        feedViewModel =
-//                ViewModelProviders.of(this).get(FeedViewModel.class);
         root = inflater.inflate(R.layout.fragment_feed, container, false);
-//        feedViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
 
         feedViewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
         User a = ViewModelProviders.of(getActivity()).get(FeedViewModel.class).getUser();
@@ -62,16 +55,8 @@ public class FeedFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycledView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Log.d("notifs", "onActivityCreated: " + a.getNotifications());
-
         adapter = new RecyclerViewAdapter(a.getNotifications(), itemClickListener);
         recyclerView.setAdapter(adapter);
-
-//        recyclerView = root.findViewById(R.id.recycledView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//
-//        adapter = new RecyclerViewAdapter(feedViewModel.getNotifications(), itemClickListener);
-//        recyclerView.setAdapter(adapter);
 
         return root;
     }
