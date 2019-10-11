@@ -1,56 +1,14 @@
 package com.example.chores.classes;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
 
-import java.util.ArrayList;
-
-public class Notification{
-    public enum Type implements Parcelable {
-        TASK_CREATED("TASK_CREATED"),
-        TASK_EDITED("TASK_EDITED"),
-        TASK_CHANGED_STATUS("TASK_CHANGED_STATUS"),
-        BOARD_CREATED("BOARD_CREATED"),
-        USER_ASSIGNED("USER_ASSIGNED");
-
-        private String option;
-
-        Type(String option){
-            this.option = option;
-        }
-
-        public String getName(){
-            return option;
-        }
-
-        private void setOption(String option){
-            this.option = option;
-        }
-
-        public static final Parcelable.Creator<Type> CREATOR = new Parcelable.Creator<Type>() {
-
-            public Type createFromParcel(Parcel in) {
-                Type option = Type.values()[in.readInt()];
-                option.setOption(in.readString());
-                return option;
-            }
-
-            public Type[] newArray(int size) {
-                return new Type[size];
-            }
-
-        };
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            out.writeInt(ordinal());
-            out.writeString(option);
-        }
+public class Notification implements Serializable {
+    public enum Type {
+        TASK_CREATED,
+        TASK_EDITED,
+        TASK_CHANGED_STATUS,
+        BOARD_CREATED,
+        USER_ASSIGNED
     }
 
     private User host;
@@ -70,34 +28,6 @@ public class Notification{
         this.board = board;
         this.type = type;
     }
-
-//    private Notification(Parcel in) {
-//
-//        this.host = in.readParcelable(User.class.getClassLoader());
-//        this.board= in.readParcelable(Board.class.getClassLoader());
-//        this.task = in.readParcelable(Task.class.getClassLoader());
-//        this.type = in.readParcelable(Type.class.getClassLoader());
-//    }
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel parcel, int flags) {
-//        parcel.writeParcelable(this.host, 1);
-//        parcel.writeParcelable(this.board, 1);
-//
-//        if (!this.task.equals(null)) {
-//            parcel.writeParcelable(this.task, 1);
-//        }
-//
-//
-//        parcel.writeParcelable(this.type, 1);
-//
-//    }
-
 
     public Board getBoard() {
         return this.board;
@@ -129,18 +59,4 @@ public class Notification{
         }
         return null;
     }
-
-//    public static final Parcelable.Creator<Notification> CREATOR
-//            = new Parcelable.Creator<Notification>() {
-//
-//        @Override
-//        public Notification createFromParcel(Parcel in) {
-//            return new Notification(in);
-//        }
-//
-//        @Override
-//        public Notification[] newArray(int size) {
-//            return new Notification[size];
-//        }
-//    };
 }

@@ -1,5 +1,6 @@
 package com.example.chores;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.example.chores.classes.Board;
@@ -12,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -31,6 +33,19 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        User currentUser = new User("Denis", "Markitanov", "dmarkitanov@gmail.com",
-                "123");
+//        User currentUser = new User("Denis", "Markitanov", "dmarkitanov@gmail.com",
+//                "123");
+
+        User currentUser = readFromFile(this);
 
         User alice = new User("Alice", "Dude", "aliceD@gmail.com", "1234");
         Board board = new Board("Chores", alice);
@@ -91,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+//        WriteToFile(currentUser, this);
     }
 
     @Override
@@ -105,5 +124,37 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void WriteToFile(User user, Context context) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"), true);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(user);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+        } catch (IOException e) {
+            Log.e("CUSTOM ERROR", "WriteToFile: " + e.getMessage());
+        }
+    }
+
+    private User readFromFile(Context context) {
+
+        User ret = null;
+
+        try {
+            FileInputStream inputStream = new FileInputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"));
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                ObjectInputStream ois = new ObjectInputStream(inputStream);
+                ret = (User) ois.readObject();
+            }
+        }
+        catch (Exception e) {
+            Log.e("FILE RELATED", e.getMessage());
+        }
+
+        return ret;
     }
 }

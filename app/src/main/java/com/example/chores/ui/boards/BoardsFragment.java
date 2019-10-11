@@ -32,7 +32,7 @@ public class BoardsFragment extends Fragment {
         @Override
         public void onItemClick(Board board, int position) {
             Intent intent = new Intent(getActivity(), BoardActivity.class);
-            intent.putExtra("board", board.getName());
+            intent.putExtra("board", board);
             startActivity(intent);
         }
     };

@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.classes.Board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BoardRecyclerViewAdapter extends RecyclerView.Adapter<BoardRecyclerViewAdapter.MainViewHolder> {
+public class BoardRecyclerViewAdapter extends RecyclerView.Adapter<BoardRecyclerViewAdapter.MainViewHolder>{
 
     private ArrayList<Board> data;
     private ItemClickListener itemClickListener;
