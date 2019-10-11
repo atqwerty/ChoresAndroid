@@ -12,32 +12,20 @@
         tools:layout="@layout/fragment_feed" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.chores.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_boards"
+        android:name="com.example.chores.ui.boards.BoardsFragment"
+        android:label="@string/menu_boards"
+        tools:layout="@layout/fragment_board" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.chores.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:id="@+id/nav_tasks"
+        android:name="com.example.chores.ui.tasks.TasksFragment"
+        android:label="@string/menu_tasks"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.example.chores.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
+        android:id="@+id/nav_profile"
+        android:name="com.example.chores.ui.profile.ProfileFragment"
+        android:label="@string/menu_profile"
         tools:layout="@layout/fragment_tools" />
-
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="com.example.chores.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
-
-    <fragment
-        android:id="@+id/nav_send"
-        android:name="com.example.chores.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
 </navigation>

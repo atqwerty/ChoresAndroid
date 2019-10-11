@@ -1,10 +1,14 @@
 package com.example.chores.ui.feed;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.chores.classes.Board;
+import com.example.chores.classes.Notification;
+import com.example.chores.classes.Task;
 import com.example.chores.classes.User;
 
 import java.util.ArrayList;
@@ -12,25 +16,26 @@ import java.util.ArrayList;
 public class FeedViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
-    private ArrayList<Board> boards;
-    private User hostUser;
+    private ArrayList<Notification> notifs;
+    private User currentUser;
 
     public FeedViewModel() {
-        mText = new MutableLiveData<>();
-        hostUser = new User("Denis", "Markitanov", "dmarkitanoc@gmail.com", "1234");
+    }
 
-        boards = new ArrayList<>();
+    public void sendData(User incomingUser) {
+        currentUser = incomingUser;
+    }
 
-        for (int i = 0; i < 3; i++) {
-            boards.add(new Board("chores" + i, hostUser));
-        }
+    public User getUser()
+    {
+        return currentUser;
     }
 
     public LiveData<String> getText() {
         return mText;
     }
 
-    public ArrayList<Board> getBoards() {
-        return boards;
+    public ArrayList<Notification> getNotifications() {
+        return this.currentUser.getNotifications();
     }
 }

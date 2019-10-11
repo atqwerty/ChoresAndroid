@@ -1,12 +1,23 @@
 package com.example.chores;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import com.example.chores.classes.Board;
+import com.example.chores.classes.Notification;
+import com.example.chores.classes.Task;
+import com.example.chores.classes.User;
+import com.example.chores.ui.boards.BoardsViewModel;
+import com.example.chores.ui.feed.FeedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +31,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        User currentUser = (User) readFromFile(this);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -41,16 +71,31 @@ public class MainActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+        View header = navigationView.getHeaderView(0);
+
+        TextView username = header.findViewById(R.id.username);
+        TextView email = header.findViewById(R.id.email);
+        username.setText(currentUser.getName() + " " + currentUser.getSurname().charAt(0));
+        email.setText(currentUser.getEmail());
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_feed, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_feed, R.id.nav_boards, R.id.nav_tasks,
+                R.id.nav_profile)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        FeedViewModel fvm = ViewModelProviders.of(this).get(FeedViewModel.class);
+        BoardsViewModel bvm = ViewModelProviders.of(this).get(BoardsViewModel.class);
+
+        fvm.sendData(currentUser);
+        bvm.sendData(currentUser.getBoards());
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        WriteToFile(currentUser, this);
     }
 
     @Override
@@ -65,5 +110,37 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void WriteToFile(User user, Context context) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"), false);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(user);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+        } catch (IOException e) {
+            Log.e("CUSTOM ERROR", "WriteToFile: " + e.getMessage());
+        }
+    }
+
+    private Object readFromFile(Context context) {
+
+        Object ret = null;
+
+        try {
+            FileInputStream inputStream = new FileInputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"));
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                ObjectInputStream ois = new ObjectInputStream(inputStream);
+                ret = ois.readObject();
+            }
+        }
+        catch (Exception e) {
+            Log.e("FILE RELATED", e.getMessage());
+        }
+
+        return ret;
     }
 }

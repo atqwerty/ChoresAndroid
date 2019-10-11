@@ -1,11 +1,9 @@
 package com.example.chores.classes;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board implements Parcelable {
+public class Board implements Serializable {
     private String name;
     private String description;
     private User host;
@@ -19,6 +17,7 @@ public class Board implements Parcelable {
         this.participants = new ArrayList<>();
         this.statuses= new ArrayList<>();
         this.tasks= new ArrayList<>();
+        this.participants.add(host);
     }
 
     public Board(String name, User host, String description) {
@@ -28,29 +27,6 @@ public class Board implements Parcelable {
         this.participants = new ArrayList<>();
         this.statuses= new ArrayList<>();
         this.tasks= new ArrayList<>();
-    }
-
-    private Board(Parcel in) {
-        this.name = in.readString();
-        this.host = in.readParcelable(User.class.getClassLoader());
-        this.participants = in.readArrayList(null);
-        this.statuses = in.readArrayList(null);
-        this.tasks = in.readArrayList(null);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeString(this.name);
-        parcel.writeString(this.description);
-        parcel.writeParcelable(this.host, 1);
-        parcel.writeList(this.participants);
-        parcel.writeList(this.statuses);
-        parcel.writeList(this.tasks);
     }
 
     public String getName() {
@@ -100,18 +76,4 @@ public class Board implements Parcelable {
     public ArrayList<Task> getTasks() {
         return this.tasks;
     }
-
-    public static final Parcelable.Creator<Board> CREATOR
-            = new Parcelable.Creator<Board>() {
-
-        @Override
-        public Board createFromParcel(Parcel in) {
-            return new Board(in);
-        }
-
-        @Override
-        public Board[] newArray(int size) {
-            return new Board[size];
-        }
-    };
 }

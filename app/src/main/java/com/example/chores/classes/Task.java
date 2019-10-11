@@ -1,8 +1,9 @@
 package com.example.chores.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Task {
+public class Task implements Serializable {
     private String name;
     private User host;
     private String status;
@@ -48,6 +49,12 @@ public class Task {
         return this.name;
     }
 
+    public Notification setName(String name, User changer) {
+        this.name = name;
+
+        return new Notification(changer, this.board, this, Notification.Type.TASK_EDITED);
+    }
+
     public User getHost() {
         return this.host;
     }
@@ -56,8 +63,10 @@ public class Task {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public Notification setStatus(String status, User changer) {
         this.status = status;
+
+        return new Notification(changer, this.board, this, Notification.Type.TASK_CHANGED_STATUS);
     }
 
     public Board getBoard() {
@@ -68,15 +77,25 @@ public class Task {
         return this.usersToDo;
     }
 
-    public void appendUsersToDo(ArrayList<User> users) {
+    public ArrayList<Notification> appendUsersToDo(ArrayList<User> users) {
         this.usersToDo.addAll(users);
+
+        ArrayList<Notification> notifications = new ArrayList<>();
+
+        for(int i = 0; i < users.size(); i++) {
+            notifications.add(new Notification(users.get(i), this.board, this, Notification.Type.USER_ASSIGNED));
+        }
+
+        return notifications;
     }
 
     public String getDescription() {
         return this.description;
     }
 
-    public void setDescription(String newDescription) {
+    public Notification setDescription(String newDescription, User changer) {
         this.description = newDescription;
+
+        return new Notification(changer, this.board, this, Notification.Type.TASK_EDITED);
     }
 }

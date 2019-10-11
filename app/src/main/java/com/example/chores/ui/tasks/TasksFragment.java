@@ -1,4 +1,4 @@
-package com.example.chores.ui.slideshow;
+package com.example.chores.ui.tasks;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.chores.R;
 
-public class SlideshowFragment extends Fragment {
+public class TasksFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private TasksViewModel tasksViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+        tasksViewModel =
+                ViewModelProviders.of(this).get(TasksViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(this, new Observer<String>() {
+        tasksViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

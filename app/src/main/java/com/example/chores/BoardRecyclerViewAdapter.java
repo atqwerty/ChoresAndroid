@@ -1,5 +1,6 @@
 package com.example.chores;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.classes.Board;
-import com.example.chores.classes.Test;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MainViewHolder> {
-    private ArrayList<Board> data;
+public class BoardRecyclerViewAdapter extends RecyclerView.Adapter<BoardRecyclerViewAdapter.MainViewHolder>{
 
+    private ArrayList<Board> data;
     private ItemClickListener itemClickListener;
 
-    public RecyclerViewAdapter(ArrayList<Board> data, ItemClickListener itemClickListener) {
+    public BoardRecyclerViewAdapter(ArrayList<Board> data, ItemClickListener itemClickListener) {
         super();
         this.data = data;
         this.itemClickListener = itemClickListener;
@@ -35,13 +36,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_row_data, parent, false);
+                .inflate(R.layout.board_row_data, parent, false);
         return new MainViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, final int position) {
         holder.textViewA.setText(data.get(position).getName());
+
+        holder.setItemClick(data.get(position));
     }
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
@@ -51,8 +54,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
-            feed= itemView.findViewById(R.id.postId);
-            textViewA = itemView.findViewById(R.id.textViewA);
+            feed= itemView.findViewById(R.id.boardId);
+            textViewA = itemView.findViewById(R.id.boardNameTextView);
         }
 
         public void setItemClick(final Board item) {
