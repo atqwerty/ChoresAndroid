@@ -56,21 +56,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        User currentUser = new User("Denis", "Markitanov", "dmarkitanov@gmail.com",
-//                "123");
-
-        User currentUser = readFromFile(this);
-
-        User alice = new User("Alice", "Dude", "aliceD@gmail.com", "1234");
-        Board board = new Board("Chores", alice);
-        currentUser.addBoard(board);
-
-        currentUser.addNotification(new Notification(alice, board, Notification.Type.BOARD_CREATED));
-
-        Task task = new Task("Buy Bread lul", alice, "not done", board);
-        currentUser.addNotification(new Notification(alice, board, task, Notification.Type.TASK_CREATED));
-
-        board.addParticipants(currentUser);
+        User currentUser = (User) readFromFile(this);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -109,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-//        WriteToFile(currentUser, this);
+        WriteToFile(currentUser, this);
     }
 
     @Override
@@ -128,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void WriteToFile(User user, Context context) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"), true);
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"), false);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(user);
             objectOutputStream.flush();
@@ -138,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private User readFromFile(Context context) {
+    private Object readFromFile(Context context) {
 
-        User ret = null;
+        Object ret = null;
 
         try {
             FileInputStream inputStream = new FileInputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"));
@@ -148,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 ObjectInputStream ois = new ObjectInputStream(inputStream);
-                ret = (User) ois.readObject();
+                ret = ois.readObject();
             }
         }
         catch (Exception e) {
