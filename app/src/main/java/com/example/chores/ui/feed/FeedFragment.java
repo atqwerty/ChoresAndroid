@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chores.R;
 import com.example.chores.NotificationRecyclerViewAdapter;
 import com.example.chores.ativities.BoardActivity;
-import com.example.chores.ativities.NotificationActivity;
-import com.example.chores.classes.Board;
 import com.example.chores.classes.Notification;
 import com.example.chores.classes.User;
 
