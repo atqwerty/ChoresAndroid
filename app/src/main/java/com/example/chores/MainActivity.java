@@ -9,6 +9,7 @@ import com.example.chores.classes.Task;
 import com.example.chores.classes.User;
 import com.example.chores.ui.boards.BoardsViewModel;
 import com.example.chores.ui.feed.FeedViewModel;
+import com.example.chores.ui.tasks.TasksViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -58,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
         User currentUser = (User) readFromFile(this);
 
+        Log.d("aaaaaaaaaaaaaaaaaaaaaaaaa", "onCreate: " + currentUser.getName());
+
+        Task test = new Task("Make dinner", currentUser, "not done", currentUser.getBoards().get(0));
+
+        ArrayList<User> usersToDo = new ArrayList<>();
+        usersToDo.add(currentUser);
+
+        test.appendUsersToDo(usersToDo, currentUser);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
 
         FeedViewModel fvm = ViewModelProviders.of(this).get(FeedViewModel.class);
         BoardsViewModel bvm = ViewModelProviders.of(this).get(BoardsViewModel.class);
+        TasksViewModel tvm = ViewModelProviders.of(this).get(TasksViewModel.class);
 
         fvm.sendData(currentUser);
         bvm.sendData(currentUser.getBoards());
+        tvm.sendData(currentUser.getTasks());
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -132,14 +144,17 @@ public class MainActivity extends AppCompatActivity {
             FileInputStream inputStream = new FileInputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"));
 
             if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 ObjectInputStream ois = new ObjectInputStream(inputStream);
+
                 ret = ois.readObject();
             }
         }
         catch (Exception e) {
             Log.e("FILE RELATED", e.getMessage());
         }
+
+
 
         return ret;
     }

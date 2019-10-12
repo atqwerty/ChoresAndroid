@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Board implements Serializable {
+
     private String name;
     private String description;
     private User host;

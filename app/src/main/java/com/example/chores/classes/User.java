@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
+    private static final long serialVersionUID = 3113715454440337302L;
+
     private String name;
     private String surname;
     private String email;
@@ -36,6 +38,10 @@ public class User implements Serializable {
 
     public void addTask(Task task) {
         this.tasks.add(task);
+    }
+
+    public ArrayList<Task> getTasks() {
+        return this.tasks;
     }
 
     public void addBoard(Board board) {
