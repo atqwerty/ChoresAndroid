@@ -19,7 +19,7 @@ public class BoardActivity extends AppCompatActivity {
 
         boardName = this.findViewById(R.id.boardName);
 
-        Board a = (Board) getIntent().getSerializableExtra("board");
-        boardName.setText(a.getName());
+        Board a = (Board) getIntent().getSerializableExtra("targetBoard");
+        boardName.setText("Board: " + a.getName());
     }
 }

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.R;
 import com.example.chores.NotificationRecyclerViewAdapter;
-import com.example.chores.ativities.NotificationActivity;
+import com.example.chores.ativities.BoardActivity;
 import com.example.chores.classes.Notification;
 import com.example.chores.classes.User;
 
@@ -29,8 +29,8 @@ public class FeedFragment extends Fragment {
     private NotificationRecyclerViewAdapter.ItemClickListener itemClickListener = new NotificationRecyclerViewAdapter.ItemClickListener() {
         @Override
         public void onItemClick(Notification notification, int position) {
-            Intent intent = new Intent(getActivity(), NotificationActivity.class);
-            intent.putExtra("notif", notification.toString());
+            Intent intent = new Intent(getActivity(), BoardActivity.class);
+            intent.putExtra("targetBoard", notification.getBoard());
             startActivity(intent);
         }
     };
