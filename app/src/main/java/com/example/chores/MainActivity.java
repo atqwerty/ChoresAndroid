@@ -59,15 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         User currentUser = (User) readFromFile(this);
 
-        Log.d("aaaaaaaaaaaaaaaaaaaaaaaaa", "onCreate: " + currentUser.getName());
-
-        Task test = new Task("Make dinner", currentUser, "not done", currentUser.getBoards().get(0));
-
-        ArrayList<User> usersToDo = new ArrayList<>();
-        usersToDo.add(currentUser);
-
-        test.appendUsersToDo(usersToDo, currentUser);
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

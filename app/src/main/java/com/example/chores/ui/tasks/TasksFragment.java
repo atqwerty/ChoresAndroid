@@ -32,8 +32,8 @@ public class TasksFragment extends Fragment {
         @Override
         public void onItemClick(Task task, int position) {
             Intent intent = new Intent(getActivity(), TaskActivity.class);
-            startActivity(intent);
             intent.putExtra("targetTask", task);
+            startActivity(intent);
         }
     };
 

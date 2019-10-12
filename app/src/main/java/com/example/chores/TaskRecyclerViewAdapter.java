@@ -35,15 +35,15 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public TaskRecyclerViewAdapter.MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.board_row_data, parent, false);
+                .inflate(R.layout.task_row, parent, false);
         return new TaskRecyclerViewAdapter.MainViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TaskRecyclerViewAdapter.MainViewHolder holder, final int position) {
-//        holder.textViewA.setText(data.get(position).getName());
+        holder.textViewA.setText(data.get(position).getName());
 
-//        holder.setItemClick(data.get(position));
+        holder.setItemClick(data.get(position));
     }
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
@@ -53,8 +53,8 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
-            feed= itemView.findViewById(R.id.boardId);
-            textViewA = itemView.findViewById(R.id.boardNameTextView);
+            feed= itemView.findViewById(R.id.task);
+            textViewA = itemView.findViewById(R.id.task_name);
         }
 
         public void setItemClick(final Task item) {
