@@ -1,12 +1,15 @@
 package com.example.chores;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.solver.widgets.ConstraintHorizontalLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.classes.Board;
@@ -48,13 +51,28 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
 
-        private LinearLayout feed;
+        private View feed;
         private TextView textViewA;
+        private Button shareButton;
 
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
-            feed= itemView.findViewById(R.id.task);
+            feed = itemView.findViewById(R.id.task);
             textViewA = itemView.findViewById(R.id.task_name);
+            shareButton = itemView.findViewById(R.id.buttonShareInList);
+
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    String shareBody = "body";
+                    String shareSub = "sub";
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                    v.getContext().startActivity(Intent.createChooser(shareIntent, "Share using"));
+                }
+            });
         }
 
         public void setItemClick(final Task item) {

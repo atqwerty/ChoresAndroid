@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EB1360"
-    tools:context=".ativities.NotificationActivity">
+    tools:context=".ativities.BoardActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTasks"
