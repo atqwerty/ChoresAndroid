@@ -56,6 +56,10 @@ public class User implements Serializable {
         this.notifications.add(0, notification);
     }
 
+    public void addNotifications(ArrayList<Notification> notifications) {
+        this.notifications.addAll(0, notifications);
+    }
+
     public ArrayList<Notification> getNotifications() {
         return this.notifications;
     }

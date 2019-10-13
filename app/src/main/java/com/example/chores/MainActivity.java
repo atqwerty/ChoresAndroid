@@ -47,17 +47,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        User currentUser = (User) readFromFile(this);
+        currentUser = (User) readFromFile(this);
+
+        if (currentUser.equals(null)) {
+            currentUser = generateUser();
+        }
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -148,5 +154,29 @@ public class MainActivity extends AppCompatActivity {
 
 
         return ret;
+    }
+
+    private User generateUser() {
+        User user = new User("Default", "User", "generated@gmail.com", "1234");
+
+        User otherUser = new User("Alice", "Alice", "Alice@gmail.com", "1234");
+
+        Board board = new Board("Chores", otherUser);
+        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Notification> notifications= new ArrayList<>();
+
+        notifications.add(new Notification(otherUser, board, Notification.Type.BOARD_CREATED));
+
+        for (int i = 0; i < 100; i++) {
+            Task task = new Task("Buy bread", otherUser, "not done", board);
+            tasks.add(task);
+            notifications.add(new Notification(otherUser, board, task, Notification.Type.TASK_CREATED));
+        }
+
+        user.addTask(tasks.get(0));
+        notifications.add(new Notification(user, board, tasks.get(0), Notification.Type.USER_ASSIGNED));
+        user.addNotifications(notifications);
+
+        return user;
     }
 }
