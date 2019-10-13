@@ -41,21 +41,21 @@ public class Notification implements Serializable {
     public String toString() {
         switch(this.type) {
             case TASK_CREATED:
-                return "Task " + this.task.getName() + " was created on boards " + this.board.getName() +
-                        " by " + this.host.getName() + " " + this.host.getSurname().charAt(0);
+                return "Task `" + this.task.getName() + "` was created on board `" + this.board.getName() +
+                        "` by " + this.host.getName() + " " + this.host.getSurname().charAt(0);
             case TASK_EDITED:
-                return "Task " + this.task.getName() + " has been edited on boards " + this.board.getName() +
-                        " by " + this.host.getName() + " " + this.host.getSurname().charAt(0);
+                return "Task `" + this.task.getName() + "` has been edited on board `" + this.board.getName() +
+                        "` by " + this.host.getName() + " " + this.host.getSurname().charAt(0);
             case TASK_CHANGED_STATUS:
-                return "Task " + this.task.getName() + " is now " + this.task.getStatus() +
-                        " on boards " + this.getBoard().getName() + " changed by " + this.host.getName() + " " +
+                return "Task `" + this.task.getName() + "` is now `" + this.task.getStatus() +
+                        "` on board `" + this.getBoard().getName() + "` changed by " + this.host.getName() + " " +
                         this.host.getSurname().charAt(0);
             case BOARD_CREATED:
-                return "User " + this.host.getName() + " " + this.host.getSurname().charAt(0) + " has created boards " +
-                        this.board.getName();
+                return "User " + this.host.getName() + " " + this.host.getSurname().charAt(0) + " has created board `" +
+                        this.board.getName() + "`";
             case USER_ASSIGNED:
                 return "User " + this.host.getName() + " " + this.host.getSurname().charAt(0) +
-                        " has assigned you to " + this.task.getName() + " on boards " + this.board.getName();
+                        " has assigned you to `" + this.task.getName() + "` on board `" + this.board.getName() + "`";
         }
         return null;
     }

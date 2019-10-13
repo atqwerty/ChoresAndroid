@@ -9,6 +9,7 @@ import com.example.chores.classes.Task;
 import com.example.chores.classes.User;
 import com.example.chores.ui.boards.BoardsViewModel;
 import com.example.chores.ui.feed.FeedViewModel;
+import com.example.chores.ui.tasks.TasksViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -46,17 +47,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        User currentUser = (User) readFromFile(this);
+        currentUser = (User) readFromFile(this);
+
+        if (currentUser == null) {
+            currentUser = generateUser();
+        }
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -88,9 +95,11 @@ public class MainActivity extends AppCompatActivity {
 
         FeedViewModel fvm = ViewModelProviders.of(this).get(FeedViewModel.class);
         BoardsViewModel bvm = ViewModelProviders.of(this).get(BoardsViewModel.class);
+        TasksViewModel tvm = ViewModelProviders.of(this).get(TasksViewModel.class);
 
         fvm.sendData(currentUser);
         bvm.sendData(currentUser.getBoards());
+        tvm.sendData(currentUser.getTasks());
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -132,8 +141,9 @@ public class MainActivity extends AppCompatActivity {
             FileInputStream inputStream = new FileInputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"));
 
             if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 ObjectInputStream ois = new ObjectInputStream(inputStream);
+
                 ret = ois.readObject();
             }
         }
@@ -141,6 +151,36 @@ public class MainActivity extends AppCompatActivity {
             Log.e("FILE RELATED", e.getMessage());
         }
 
+
+
         return ret;
+    }
+
+    private User generateUser() {
+        User user = new User("Default", "User", "generated@gmail.com", "1234");
+
+        User otherUser = new User("Alice", "Alice", "Alice@gmail.com", "1234");
+
+        Board board = new Board("Chores", otherUser);
+        board.addParticipants(user);
+        user.addBoard(board);
+        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Notification> notifications= new ArrayList<>();
+
+        notifications.add(new Notification(otherUser, board, Notification.Type.BOARD_CREATED));
+
+        for (int i = 0; i < 100; i++) {
+            Task task = new Task("Buy bread", otherUser, "not done", board);
+            tasks.add(task);
+            notifications.add(new Notification(otherUser, board, task, Notification.Type.TASK_CREATED));
+        }
+
+        board.addTasks(tasks);
+
+        user.addTask(tasks.get(0));
+        notifications.add(new Notification(user, board, tasks.get(0), Notification.Type.USER_ASSIGNED));
+        user.addNotifications(notifications);
+
+        return user;
     }
 }

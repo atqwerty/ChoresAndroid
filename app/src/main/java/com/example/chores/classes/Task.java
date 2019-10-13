@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Task implements Serializable {
+    private static final long serialVersionUID = -1726271017830998326L;
+
     private String name;
     private User host;
     private String status;
@@ -77,16 +79,15 @@ public class Task implements Serializable {
         return this.usersToDo;
     }
 
-    public ArrayList<Notification> appendUsersToDo(ArrayList<User> users) {
+    public void appendUsersToDo(ArrayList<User> users, User userCreated) {
         this.usersToDo.addAll(users);
 
         ArrayList<Notification> notifications = new ArrayList<>();
 
         for(int i = 0; i < users.size(); i++) {
-            notifications.add(new Notification(users.get(i), this.board, this, Notification.Type.USER_ASSIGNED));
+            users.get(i).addNotification(new Notification(userCreated, this.board, this, Notification.Type.USER_ASSIGNED));
+//            notifications.add(new Notification(users.get(i), this.board, this, Notification.Type.USER_ASSIGNED));
         }
-
-        return notifications;
     }
 
     public String getDescription() {
