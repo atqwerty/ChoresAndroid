@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         currentUser = (User) readFromFile(this);
 
-        if (currentUser.equals(null)) {
+        if (currentUser == null) {
             currentUser = generateUser();
         }
 
@@ -162,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
         User otherUser = new User("Alice", "Alice", "Alice@gmail.com", "1234");
 
         Board board = new Board("Chores", otherUser);
+        board.addParticipants(user);
+        user.addBoard(board);
         ArrayList<Task> tasks = new ArrayList<>();
         ArrayList<Notification> notifications= new ArrayList<>();
 
@@ -172,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
             tasks.add(task);
             notifications.add(new Notification(otherUser, board, task, Notification.Type.TASK_CREATED));
         }
+
+        board.addTasks(tasks);
 
         user.addTask(tasks.get(0));
         notifications.add(new Notification(user, board, tasks.get(0), Notification.Type.USER_ASSIGNED));

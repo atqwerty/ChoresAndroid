@@ -74,6 +74,10 @@ public class Board implements Serializable {
         this.tasks.add(task);
     }
 
+    public void addTasks(ArrayList<Task> tasks) {
+        this.tasks.addAll(0, tasks);
+    }
+
     public ArrayList<Task> getTasks() {
         return this.tasks;
     }

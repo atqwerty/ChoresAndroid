@@ -8,6 +8,7 @@
     tools:context=".ativities.NotificationActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTasks"
         android:layout_width="409dp"
         android:layout_height="688dp"
         app:layout_constraintEnd_toEndOf="parent"
