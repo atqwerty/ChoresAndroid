@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:fontFamily="monospace"
             android:text="TextView"
@@ -39,7 +40,7 @@
         <Button
             android:id="@+id/buttonShareInList"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/border"
             android:fontFamily="monospace"
             android:minWidth="60dip"
