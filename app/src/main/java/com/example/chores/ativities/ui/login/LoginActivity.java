@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -69,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                     showLoginFailed(loginResult.getError());
                 }
                 if (loginResult.getSuccess() != null) {
+                    Log.d("adsf", "onChanged: " + loginResult.getSuccess().getDisplayName());
                     updateUiWithUser(loginResult.getSuccess());
                 }
                 setResult(Activity.RESULT_OK);
@@ -103,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                            passwordEditText.getText().toString(), getApplicationContext());
                 }
                 return false;
             }
@@ -114,18 +116,20 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                        passwordEditText.getText().toString(), getApplicationContext());
             }
         });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
+        Log.d("adsf", "updateUiWithUser: " + model.getDisplayName() + "asdfadfaf");
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+        Log.d("adsf", "showLoginFailed: " + "asdfafsd");
+        Toast.makeText(getApplicationContext(), errorString + "asdf", Toast.LENGTH_SHORT).show();
     }
 }
