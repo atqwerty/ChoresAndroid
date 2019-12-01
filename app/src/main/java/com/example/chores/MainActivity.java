@@ -1,6 +1,7 @@
 package com.example.chores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.chores.classes.Board;
