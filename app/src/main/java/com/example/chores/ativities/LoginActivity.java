@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText email;
     EditText password;
     Button loginButton;
+    Button gotoRegister;
     String url = "https://chores-backend-atqwerty.herokuapp.com/login";
 
     @Override
@@ -40,12 +41,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.login);
+        gotoRegister = findViewById(R.id.register);
 
+        gotoRegister.setOnClickListener(this);
         loginButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.login:
+                login();
+                break;
+            case R.id.register:
+                gotoRegisterOnClick();
+                break;
+        }
+
+    }
+
+    private void login() {
         JSONObject userJSON = new JSONObject();
         try {
             userJSON.put("email", email.getText());
@@ -55,20 +70,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, userJSON,
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Intent activityIntent = new Intent(getApplicationContext(), MainActivity.class);
-                    activityIntent.putExtra("user", response.toString());
-                    startActivity(activityIntent);
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("adsf", "onErrorResponse: " + error.getMessage());
-                }
-        }){
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Intent activityIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        activityIntent.putExtra("user", response.toString());
+                        startActivity(activityIntent);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("adsf", "onErrorResponse: " + error.getMessage());
+                    }
+                }) {
             @Override
             public Map getHeaders() throws AuthFailureError {
                 HashMap headers = new HashMap();
@@ -76,8 +91,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return headers;
             }
         };
-
         AppController.getInstance(getApplicationContext()).addToRequestQueue(req, "loginUser");
+    }
+
+    private void gotoRegisterOnClick() {
+        Intent registerIntent = new Intent(this, RegisterActivity.class);
+        startActivity(registerIntent);
     }
 
     @Override
