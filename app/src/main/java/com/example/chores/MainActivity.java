@@ -1,7 +1,6 @@
 package com.example.chores;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.chores.classes.Board;
@@ -14,11 +13,9 @@ import com.example.chores.ui.tasks.TasksViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -35,20 +32,12 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -82,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         View header = navigationView.getHeaderView(0);
 
-        TextView username = header.findViewById(R.id.username);
+        TextView username = header.findViewById(R.id.email);
         TextView email = header.findViewById(R.id.email);
         username.setText(currentUser.getName() + " " + currentUser.getSurname().charAt(0));
         email.setText(currentUser.getEmail());

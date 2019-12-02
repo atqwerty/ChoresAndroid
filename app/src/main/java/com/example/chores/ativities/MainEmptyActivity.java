@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.example.chores.MainActivity;
 import com.example.chores.R;
-import com.example.chores.ativities.ui.login.LoginActivity;
+import com.example.chores.ativities.LoginActivity;
 
 public class MainEmptyActivity extends AppCompatActivity {
 

@@ -13,28 +13,32 @@ public class AppController {
     public static final String TAG = AppController.class.getName();
 
     private RequestQueue requestQueue;
-
     private static AppController mInstance;
+    private static Context ctx;
 
-    public AppController() {
-        mInstance = this;
+    public AppController(Context context) {
+        ctx = context;
     }
 
-    public static synchronized AppController getInstance() {
+    public static synchronized AppController getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new AppController(context);
+        }
+
         return mInstance;
     }
 
-    public RequestQueue getRequestQueue(Context context) {
+    public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(context);
+            requestQueue = Volley.newRequestQueue(ctx);
         }
 
         return requestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> req, String tag, Context context) {
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        getRequestQueue(context).add(req);
+        getRequestQueue().add(req);
     }
 
     public void canclePendingReqest(Object tag) {
