@@ -3,6 +3,7 @@ package com.example.chores.ativities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chores.AppController;
+import com.example.chores.MainActivity;
 import com.example.chores.R;
 
 import org.json.JSONException;
@@ -56,7 +58,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.d("adsf", "onResponse: " + response.toString());
+                    Intent activityIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    activityIntent.putExtra("user", response.toString());
+                    startActivity(activityIntent);
                 }
             },
             new Response.ErrorListener() {

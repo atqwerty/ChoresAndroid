@@ -1,6 +1,7 @@
 package com.example.chores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.chores.classes.Board;
@@ -32,6 +33,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -48,8 +52,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String userFromIntent = intent.getStringExtra("user");
+        JSONObject userJSON = null;
 
-        currentUser = (User) readFromFile(this);
+        try {
+            userJSON = new JSONObject(userFromIntent);
+            currentUser = new User(userJSON.getString("name"), userJSON.getString("surname"),
+                    userJSON.getString("email"), userJSON.getString("password"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        // currentUser = (User) readFromFile(this);
 
         if (currentUser == null) {
             currentUser = generateUser();
