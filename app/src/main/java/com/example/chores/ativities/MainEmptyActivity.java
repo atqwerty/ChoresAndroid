@@ -56,7 +56,6 @@ public class MainEmptyActivity extends AppCompatActivity {
 
         try {
             FileInputStream inputStream = new FileInputStream(new File(context.getFilesDir().getAbsolutePath() + "/user.txt"));
-            Log.d("adsf", "readFromFile: " + context.getFilesDir().getAbsolutePath());
 
             if ( inputStream != null ) {
                 ObjectInputStream ois = new ObjectInputStream(inputStream);

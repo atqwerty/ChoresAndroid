@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String userFromIntent = intent.getStringExtra("user");
-        Log.d("adsf", "onCreate: " + userFromIntent);
         JSONObject userJSON;
 
         try {
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void WriteToFile(User user, Context context) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"), false);
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir().getAbsolutePath() + "/user.txt"), false);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(user);
             objectOutputStream.flush();
