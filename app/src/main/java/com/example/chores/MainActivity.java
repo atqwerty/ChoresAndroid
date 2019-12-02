@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String userFromIntent = intent.getStringExtra("user");
-        JSONObject userJSON = null;
+        Log.d("adsf", "onCreate: " + userFromIntent);
+        JSONObject userJSON;
 
         try {
             userJSON = new JSONObject(userFromIntent);
