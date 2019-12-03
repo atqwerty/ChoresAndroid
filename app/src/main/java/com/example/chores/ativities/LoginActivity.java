@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.setContentView(R.layout.activity_login);
         super.onCreate(savedInstanceState);
 
-        email = findViewById(R.id.email);
+        email = findViewById(R.id.email_feild);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.login);
         gotoRegister = findViewById(R.id.register);
@@ -91,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return headers;
             }
         };
+        CookieManager.getInstance().setAcceptCookie(true);
         AppController.getInstance(getApplicationContext()).addToRequestQueue(req, "loginUser");
     }
 

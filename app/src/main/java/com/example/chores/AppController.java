@@ -8,6 +8,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.Request;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.CookieStore;
+
 public class AppController {
 
     public static final String TAG = AppController.class.getName();
@@ -18,6 +23,9 @@ public class AppController {
 
     public AppController(Context context) {
         ctx = context;
+        CookieStore cookieStore = new CookieManager().getCookieStore();
+        CookieManager cookieManager = new CookieManager(cookieStore, CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(cookieManager);
     }
 
     public static synchronized AppController getInstance(Context context) {
