@@ -21,6 +21,12 @@
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/menu_profile" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:onClick="smth"
+            android:title="Logout" />
     </group>
 
 </menu>
+

@@ -1,5 +1,6 @@
 package com.example.chores;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -11,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.chores.ativities.LoginActivity;
 import com.example.chores.classes.Board;
 import com.example.chores.classes.Notification;
 import com.example.chores.classes.Task;
@@ -22,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -40,6 +43,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.webkit.CookieManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,9 +105,10 @@ public class MainActivity extends AppCompatActivity {
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_feed, R.id.nav_boards, R.id.nav_tasks,
-                R.id.nav_profile)
+                R.id.nav_profile, R.id.logout)
                 .setDrawerLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         FeedViewModel fvm = ViewModelProviders.of(this).get(FeedViewModel.class);
@@ -188,6 +194,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return prettifiedData;
+    }
+
+    public void smth(MenuItem item) {
+        File dir = new File(this.getFilesDir().getAbsolutePath() + "/user.txt");
+        dir.delete();
+        Intent loginIntent = new Intent(this, LoginActivity.class);
+        startActivity(loginIntent);
+        finish();
     }
 
 }
