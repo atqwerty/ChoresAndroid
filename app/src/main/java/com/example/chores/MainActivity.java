@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchData (final BoardsViewModel bvm, TasksViewModel tvm) {
-        Log.d("adsf", "fetchData: " + CookieManager.getInstance().getCookie("Auth"));
         String url = "https://chores-backend-atqwerty.herokuapp.com/board/all";
         JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -187,7 +186,9 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < response.length(); i++) {
             try {
-                prettifiedData.add(new Board(response.getJSONObject(i).getString("title"), currentUser));
+                prettifiedData.add(new Board(response.getJSONObject(i).getInt("ID"),
+                        response.getJSONObject(i).getString("title"),
+                        response.getJSONObject(i).getString("description"), currentUser, this));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

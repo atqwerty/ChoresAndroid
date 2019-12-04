@@ -21,8 +21,8 @@ public class BoardsViewModel extends ViewModel {
         return mText;
     }
 
-    public void sendData(ArrayList<Board> incomingBoaards) {
-        boards = incomingBoaards;
+    public void sendData(ArrayList<Board> incomingBoards) {
+        boards = incomingBoards;
     }
 
     public ArrayList<Board> getBoards() {

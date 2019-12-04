@@ -1,10 +1,23 @@
 package com.example.chores.classes;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.chores.AppController;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Board implements Serializable {
 
+    private int id;
     private String name;
     private String description;
     private User host;
@@ -12,26 +25,36 @@ public class Board implements Serializable {
     private ArrayList<String> statuses;
     private ArrayList<Task> tasks;
 
-    public Board(String name, User host) {
+    public Board(int id, String name, User host, Context context) {
+        this.id = id;
         this.name = name;
         this.host = host;
         this.participants = new ArrayList<>();
         this.statuses= new ArrayList<>();
         this.tasks= new ArrayList<>();
         this.participants.add(host);
+
+        fetchTasks(this.id, context);
     }
 
-    public Board(String name, User host, String description) {
+    public Board(int id, String name,  String description, User host, Context context) {
+        this.id = id;
         this.name = name;
         this.host = host;
         this.description = description;
         this.participants = new ArrayList<>();
         this.statuses= new ArrayList<>();
         this.tasks= new ArrayList<>();
+
+        fetchTasks(this.id, context);
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public void setName(String name) {
@@ -80,5 +103,36 @@ public class Board implements Serializable {
 
     public ArrayList<Task> getTasks() {
         return this.tasks;
+    }
+
+    private void fetchTasks(int id, Context context) {
+        String url = "https://chores-backend-atqwerty.herokuapp.com/board/" + id;
+
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
+            new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            tasks.add(new Task(response.getJSONObject(i).getInt("ID"),
+                                    response.getJSONObject(i).getString("title"),
+                                    response.getJSONObject(i).getString("status"),
+                                    response.getJSONObject(i).getString("description")));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Log.d("adsf", "onResponse: " + tasks);
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("adsf", "onErrorResponse: " + error.getMessage());
+
+                }
+        });
+
+        AppController.getInstance(context).addToRequestQueue(req, "getBoardTasks");
     }
 }
