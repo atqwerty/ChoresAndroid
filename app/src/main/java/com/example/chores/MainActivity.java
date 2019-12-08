@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d("adsf", "onResponse: " + response.toString());
-                        bvm.sendData(prettifyData(response));
+                        bvm.sendData(prettifyData(response), currentUser);
                     }
                 },
                 new Response.ErrorListener() {
