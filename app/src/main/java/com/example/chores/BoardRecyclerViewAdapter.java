@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.classes.Board;
+import com.example.chores.classes.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Task implements Serializable {
     private static final long serialVersionUID = -1726271017830998326L;
 
+    private int id;
     private String name;
     private User host;
     private String status;
@@ -21,12 +22,11 @@ public class Task implements Serializable {
         this.usersToDo = new ArrayList<>();
     }
 
-    public Task(String name, User host, String status, Board board, String description) {
+    public Task(int id, String name, String status, String description) {
         this.name = name;
-        this.host = host;
         this.status = status;
-        this.board = board;
         this.description = description;
+        this.id = id;
     }
 
     public Task(String name, User host, String status, Board board, ArrayList<User> usersToDo) {

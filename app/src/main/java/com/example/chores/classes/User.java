@@ -1,5 +1,10 @@
 package com.example.chores.classes;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -13,6 +18,7 @@ public class User implements Serializable {
     private ArrayList<Task> tasks;
     private ArrayList<Board> boards;
     private ArrayList<Notification> notifications;
+    private String token;
 
     public User(String name, String surname, String email, String password) {
         this.name = name;
@@ -34,6 +40,10 @@ public class User implements Serializable {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public String getToken() {
+        return this.token;
     }
 
     public void addTask(Task task) {

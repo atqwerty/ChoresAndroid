@@ -1,9 +1,18 @@
 package com.example.chores;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.chores.ativities.LoginActivity;
 import com.example.chores.classes.Board;
 import com.example.chores.classes.Notification;
 import com.example.chores.classes.Task;
@@ -15,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -31,8 +41,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.webkit.CookieManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,6 +56,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,22 +73,18 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             userJSON = new JSONObject(userFromIntent);
+            Log.d("adsf", "onCreate: " + userJSON.toString());
             currentUser = new User(userJSON.getString("name"), userJSON.getString("surname"),
                     userJSON.getString("email"), userJSON.getString("password"));
+            Log.d("adsf", "onCreate: " + currentUser.getName());
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-
-
-        // currentUser = (User) readFromFile(this);
-
-        if (currentUser == null) {
-            currentUser = generateUser();
         }
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,17 +105,19 @@ public class MainActivity extends AppCompatActivity {
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_feed, R.id.nav_boards, R.id.nav_tasks,
-                R.id.nav_profile)
+                R.id.nav_profile, R.id.logout)
                 .setDrawerLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         FeedViewModel fvm = ViewModelProviders.of(this).get(FeedViewModel.class);
         BoardsViewModel bvm = ViewModelProviders.of(this).get(BoardsViewModel.class);
         TasksViewModel tvm = ViewModelProviders.of(this).get(TasksViewModel.class);
 
+        fetchData(bvm, tvm);
+
         fvm.sendData(currentUser);
-        bvm.sendData(currentUser.getBoards());
         tvm.sendData(currentUser.getTasks());
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -139,54 +152,57 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Object readFromFile(Context context) {
+    private void fetchData (final BoardsViewModel bvm, TasksViewModel tvm) {
+        String url = "https://chores-backend-atqwerty.herokuapp.com/board/all";
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("adsf", "onResponse: " + response.toString());
+                        bvm.sendData(prettifyData(response), currentUser);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("adsf", "onErrorResponse: " + error.getMessage());
 
-        Object ret = null;
+                    }
+                }
+        ){
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization", "Bearer " + currentUser.getToken());
+                return headers;
+            }
+        };
 
-        try {
-            FileInputStream inputStream = new FileInputStream(new File(context.getFilesDir().getAbsolutePath() + "/filesmyfile.txt"));
+        AppController.getInstance(this).addToRequestQueue(req, "getAllUserBoards");
+    }
 
-            if ( inputStream != null ) {
-//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                ObjectInputStream ois = new ObjectInputStream(inputStream);
+    private ArrayList<Board> prettifyData(JSONArray response) {
+        ArrayList<Board> prettifiedData = new ArrayList<>();
 
-                ret = ois.readObject();
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                prettifiedData.add(new Board(response.getJSONObject(i).getInt("ID"),
+                        response.getJSONObject(i).getString("title"),
+                        response.getJSONObject(i).getString("description"), currentUser, this));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
-        catch (Exception e) {
-            Log.e("FILE RELATED", e.getMessage());
-        }
 
-
-
-        return ret;
+        return prettifiedData;
     }
 
-    private User generateUser() {
-        User user = new User("Default", "User", "generated@gmail.com", "1234");
-
-        User otherUser = new User("Alice", "Alice", "Alice@gmail.com", "1234");
-
-        Board board = new Board("Chores", otherUser);
-        board.addParticipants(user);
-        user.addBoard(board);
-        ArrayList<Task> tasks = new ArrayList<>();
-        ArrayList<Notification> notifications= new ArrayList<>();
-
-        notifications.add(new Notification(otherUser, board, Notification.Type.BOARD_CREATED));
-
-        for (int i = 0; i < 100; i++) {
-            Task task = new Task("Buy bread", otherUser, "not done", board);
-            tasks.add(task);
-            notifications.add(new Notification(otherUser, board, task, Notification.Type.TASK_CREATED));
-        }
-
-        board.addTasks(tasks);
-
-        user.addTask(tasks.get(0));
-        notifications.add(new Notification(user, board, tasks.get(0), Notification.Type.USER_ASSIGNED));
-        user.addNotifications(notifications);
-
-        return user;
+    public void smth(MenuItem item) {
+        File dir = new File(this.getFilesDir().getAbsolutePath() + "/user.txt");
+        dir.delete();
+        Intent loginIntent = new Intent(this, LoginActivity.class);
+        startActivity(loginIntent);
+        finish();
     }
+
 }

@@ -17,6 +17,8 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_name">Name</string>
     <string name="prompt_surname">Surname</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
