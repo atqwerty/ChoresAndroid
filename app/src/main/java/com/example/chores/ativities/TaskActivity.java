@@ -41,8 +41,7 @@ public class TaskActivity extends AppCompatActivity {
             description.append("No description was provided");
         }
 
-        info.setText("Task was created by " + a.getHost().getName() + " " + a.getHost().getSurname().charAt(0) +
-                " on board: " + a.getBoard().getName());
+
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
