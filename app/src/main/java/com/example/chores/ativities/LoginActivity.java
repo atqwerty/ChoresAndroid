@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
+                Log.d("adsf", "onClick: " + "here");
                 login();
                 break;
             case R.id.register:
@@ -74,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d("adsf", "onResponse: " + "adsf");
                         Intent activityIntent = new Intent(getApplicationContext(), MainActivity.class);
                         activityIntent.putExtra("user", response.toString());
                         startActivity(activityIntent);
