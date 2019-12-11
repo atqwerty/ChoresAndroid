@@ -47,6 +47,6 @@
         android:layout_marginTop="5dp"
         android:text="New Board"
         android:textColor="#FFFFFF"
-        android:background="@drawable/border" />
+        android:background="@drawable/clickable" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
