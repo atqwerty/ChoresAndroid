@@ -22,7 +22,7 @@ public class Board implements Serializable {
     private String description;
     private User host;
     private ArrayList<User> participants;
-    private ArrayList<String> statuses;
+    private ArrayList<Status> statuses;
     private ArrayList<Task> tasks;
 
     public Board(int id, String name, User host, Context context) {
@@ -35,6 +35,7 @@ public class Board implements Serializable {
         this.participants.add(host);
 
         fetchTasks(this.id, context);
+        fetchStatuses(this.id, context);
     }
 
     public Board(int id, String name,  String description, User host, Context context) {
@@ -47,6 +48,7 @@ public class Board implements Serializable {
         this.tasks= new ArrayList<>();
 
         fetchTasks(this.id, context);
+        fetchStatuses(this.id, context);
     }
 
     public String getName() {
@@ -85,11 +87,11 @@ public class Board implements Serializable {
         return this.participants;
     }
 
-    public void addStatue(String status) {
+    public void addStatus(Status status) {
         this.statuses.add(status);
     }
 
-    public ArrayList<String> getStatuses() {
+    public ArrayList<Status> getStatuses() {
         return this.statuses;
     }
 
@@ -131,26 +133,35 @@ public class Board implements Serializable {
                     Log.d("adsf", "onErrorResponse: " + error.getMessage());
 
                 }
-        });
+            });
 
         AppController.getInstance(context).addToRequestQueue(req, "getBoardTasks");
     }
 
-    private fetchStatuses(int id, Context context) {
+    private void fetchStatuses(int id, Context context) {
         String url = "https://chores-backend-atqwerty.herokuapp.com/board/" + id + "getStatuses";
 
         JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-
+            new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            statuses.add(new Status(response.getJSONObject(i).getInt("id"),
+                                    response.getJSONObject(i).getString("status")));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("adsf", "onErrorResponse: " + error.getMessage());
-                    }
-                });
+                    Log.d("adsf", "onResponse: " + statuses);
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("adsf", "onErrorResponse: " + error.getMessage());
+                }
+            });
+        AppController.getInstance(context).addToRequestQueue(req, "getStatuses");
     }
 }
