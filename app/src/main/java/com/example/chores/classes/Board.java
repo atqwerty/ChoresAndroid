@@ -135,4 +135,22 @@ public class Board implements Serializable {
 
         AppController.getInstance(context).addToRequestQueue(req, "getBoardTasks");
     }
+
+    private fetchStatuses(int id, Context context) {
+        String url = "https://chores-backend-atqwerty.herokuapp.com/board/" + id + "getStatuses";
+
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("adsf", "onErrorResponse: " + error.getMessage());
+                    }
+                });
+    }
 }
