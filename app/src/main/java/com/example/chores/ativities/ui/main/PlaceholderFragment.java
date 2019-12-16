@@ -46,14 +46,14 @@ public class PlaceholderFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_test, container, false);
-        final TextView textView = root.findViewById(R.id.section_label);
-        pageViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        View root = inflater.inflate(R.layout.fragment_board, container, false);
+        //final TextView textView = root.findViewById(R.id.section_label);
+        //pageViewModel.getText().observe(this, new Observer<String>() {
+          //  @Override
+          //  public void onChanged(@Nullable String s) {
+            //    textView.setText(s);
+            //}
+        //});
         return root;
     }
 }
