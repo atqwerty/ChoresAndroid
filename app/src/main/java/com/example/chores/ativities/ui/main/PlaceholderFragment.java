@@ -31,6 +31,7 @@ public class PlaceholderFragment extends Fragment {
     private TaskRecyclerViewAdapter adapter;
     private Button createTaskButton;
     private static Board currentBoard;
+    private static int counter = 0;
 
     private PageViewModel pageViewModel;
 
@@ -62,6 +63,10 @@ public class PlaceholderFragment extends Fragment {
 
         statusName = root.findViewById(R.id.boardName);
         createTaskButton = root.findViewById(R.id.new_task_button);
+
+        statusName.setText(currentBoard.getStatuses().get(counter).getStatusString());
+
+        counter++;
 
         createTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
