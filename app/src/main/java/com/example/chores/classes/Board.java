@@ -139,7 +139,7 @@ public class Board implements Serializable {
     }
 
     private void fetchStatuses(int id, Context context) {
-        String url = "https://chores-backend-atqwerty.herokuapp.com/board/" + id + "getStatuses";
+        String url = "https://chores-backend-atqwerty.herokuapp.com/board/" + id + "/getStatuses";
 
         JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
             new Response.Listener<JSONArray>() {

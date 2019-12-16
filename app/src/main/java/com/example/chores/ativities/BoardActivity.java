@@ -16,6 +16,8 @@ import com.example.chores.TaskRecyclerViewAdapter;
 import com.example.chores.classes.Board;
 import com.example.chores.classes.Task;
 import com.example.chores.ui.forms.NewTaskFormActivity;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 
 public class BoardActivity extends AppCompatActivity {
 
@@ -46,8 +48,6 @@ public class BoardActivity extends AppCompatActivity {
 
         recyclerView = this.findViewById(R.id.recyclerViewTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(BoardActivity.this));
-
-        Log.d("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "onCreate: " + a.getTasks());
 
         adapter = new TaskRecyclerViewAdapter(a.getTasks(), itemClickListener);
 

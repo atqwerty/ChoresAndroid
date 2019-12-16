@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chores.BoardRecyclerViewAdapter;
 import com.example.chores.R;
 import com.example.chores.ativities.BoardActivity;
+import com.example.chores.ativities.TestActivity;
 import com.example.chores.classes.Board;
 import com.example.chores.classes.User;
 import com.example.chores.ui.forms.NewBoardFormActivity;
@@ -35,7 +36,7 @@ public class BoardsFragment extends Fragment {
     private BoardRecyclerViewAdapter.ItemClickListener itemClickListener = new BoardRecyclerViewAdapter.ItemClickListener() {
         @Override
         public void onItemClick(Board board, int position) {
-            Intent intent = new Intent(getActivity(), BoardActivity.class);
+            Intent intent = new Intent(getActivity(), TestActivity.class);
             intent.putExtra("targetBoard", board);
             startActivity(intent);
         }
