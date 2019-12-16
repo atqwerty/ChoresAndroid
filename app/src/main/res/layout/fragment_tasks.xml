@@ -4,35 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EB1360">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycledViewTasks"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+    android:background="#EB1360"
+    tools:context=".ativities.BoardActivity">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/boardName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
         android:padding="10dp"
-        android:text="Your Tasks:"
+        android:text="TextView"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
+    <Button
+        android:id="@+id/new_task_button"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/clickable"
+        android:text="New Task"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTasks" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTasks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollX="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/boardName">
 
-
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

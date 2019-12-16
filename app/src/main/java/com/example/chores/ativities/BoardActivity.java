@@ -29,7 +29,7 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_board);
+        //setContentView(R.layout.activity_board);
         final Board a = (Board) getIntent().getSerializableExtra("targetBoard");
 
         boardName = this.findViewById(R.id.boardName);

@@ -47,7 +47,7 @@ public class TasksFragment extends Fragment {
 //        User a = ViewModelProviders.of(getActivity()).get(FeedViewModel.class).getUser();
         ArrayList<Task> a = ViewModelProviders.of(getActivity()).get(TasksViewModel.class).getTasks();
 
-        recyclerView = root.findViewById(R.id.recycledViewTasks);
+        recyclerView = root.findViewById(R.id.recyclerViewTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         adapter = new TaskRecyclerViewAdapter(a, itemClickListener);
