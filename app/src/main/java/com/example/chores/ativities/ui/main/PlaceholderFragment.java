@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.R;
 import com.example.chores.TaskRecyclerViewAdapter;
+import com.example.chores.ativities.ui.main.PageViewModel;
 import com.example.chores.classes.Board;
+import com.example.chores.classes.Status;
 import com.example.chores.ui.forms.NewTaskFormActivity;
 
 /**
@@ -27,7 +29,9 @@ public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private Button createTaskButton;
+    private Status status;
     private static Board currentBoard;
+    private static int counter = 0;
 
     private PageViewModel pageViewModel;
 
@@ -35,6 +39,7 @@ public class PlaceholderFragment extends Fragment {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
+        bundle.putSerializable("status", board.getStatuses().get(counter));
         fragment.setArguments(bundle);
         currentBoard = board;
         return fragment;
@@ -47,6 +52,7 @@ public class PlaceholderFragment extends Fragment {
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
+            status = (Status) getArguments().getSerializable("status");
         }
         pageViewModel.setIndex(index);
     }
