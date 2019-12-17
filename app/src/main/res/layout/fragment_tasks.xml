@@ -7,19 +7,6 @@
     android:background="#EB1360"
     tools:context=".ativities.BoardActivity">
 
-    <TextView
-        android:id="@+id/boardName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:padding="10dp"
-        android:text="TextView"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/new_task_button"
         android:layout_width="match_parent"
@@ -36,7 +23,7 @@
         android:scrollX="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boardName">
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 

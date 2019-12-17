@@ -26,12 +26,8 @@ import com.example.chores.ui.forms.NewTaskFormActivity;
 public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private TextView statusName;
-    private RecyclerView recyclerView;
-    private TaskRecyclerViewAdapter adapter;
     private Button createTaskButton;
     private static Board currentBoard;
-    private static int counter = 0;
 
     private PageViewModel pageViewModel;
 
@@ -61,12 +57,7 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_tasks, container, false);
 
-        statusName = root.findViewById(R.id.boardName);
         createTaskButton = root.findViewById(R.id.new_task_button);
-
-        statusName.setText(currentBoard.getStatuses().get(counter).getStatusString());
-
-        counter++;
 
         createTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
