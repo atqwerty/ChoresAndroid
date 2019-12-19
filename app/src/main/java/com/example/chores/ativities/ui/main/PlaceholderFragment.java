@@ -17,10 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chores.R;
 import com.example.chores.TaskRecyclerViewAdapter;
+import com.example.chores.ativities.TaskActivity;
 import com.example.chores.ativities.ui.main.PageViewModel;
 import com.example.chores.classes.Board;
 import com.example.chores.classes.Status;
+import com.example.chores.classes.Task;
 import com.example.chores.ui.forms.NewTaskFormActivity;
+import com.example.chores.ui.tasks.TasksViewModel;
+
+import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -29,6 +34,9 @@ public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private Button createTaskButton;
+    private TasksViewModel tasksViewModel;
+    private RecyclerView recyclerView;
+    private TaskRecyclerViewAdapter adapter;
     private Status status;
     private static Board currentBoard;
     private static int counter = 0;
@@ -39,11 +47,24 @@ public class PlaceholderFragment extends Fragment {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
-        bundle.putSerializable("status", board.getStatuses().get(counter));
+        if (board.getStatuses().isEmpty()) {
+            bundle.putSerializable("status", null);
+        } else {
+            bundle.putSerializable("status", board.getStatuses().get(counter));
+        }
         fragment.setArguments(bundle);
         currentBoard = board;
         return fragment;
     }
+
+    private TaskRecyclerViewAdapter.ItemClickListener itemClickListener = new TaskRecyclerViewAdapter.ItemClickListener() {
+        @Override
+        public void onItemClick(Task task, int position) {
+            Intent intent = new Intent(getActivity(), TaskActivity.class);
+            intent.putExtra("targetTask", task);
+            startActivity(intent);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +84,14 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_tasks, container, false);
 
+        tasksViewModel = ViewModelProviders.of(this).get(TasksViewModel.class);
+        ArrayList<Task> tasks = ViewModelProviders.of(this).get(TasksViewModel.class).getTasks();
+
         createTaskButton = root.findViewById(R.id.new_task_button);
+        recyclerView = root.findViewById(R.id.recyclerViewTasks);
+
+        adapter = new TaskRecyclerViewAdapter(tasks, itemClickListener);
+        recyclerView.setAdapter(adapter);
 
         createTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override

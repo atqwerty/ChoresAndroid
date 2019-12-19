@@ -39,6 +39,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
+        if (currentBoard.getStatuses().isEmpty()) {
+            return null;
+        }
         return currentBoard.getStatuses().get(position).getStatusString();
     }
 
