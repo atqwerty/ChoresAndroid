@@ -17,7 +17,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chores.AppController;
 import com.example.chores.R;
 import com.example.chores.ativities.BoardActivity;
+import com.example.chores.ativities.TestActivity;
 import com.example.chores.classes.Board;
+import com.example.chores.classes.Status;
 import com.example.chores.classes.Task;
 
 import org.json.JSONException;
@@ -30,6 +32,7 @@ public class NewTaskFormActivity extends AppCompatActivity {
     private EditText status;
     private Button newTaskButton;
     private Board board;
+    private Status incomingStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class NewTaskFormActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         board = (Board) intent.getSerializableExtra("board");
+        incomingStatus = (Status) intent.getSerializableExtra("status");
 
         title = findViewById(R.id.new_task_title_id);
         description = findViewById(R.id.new_task_decription_id);
@@ -53,7 +57,7 @@ public class NewTaskFormActivity extends AppCompatActivity {
                 try {
                     newTask.put("title", title.getText());
                     newTask.put("description", description.getText());
-                    newTask.put("status", Integer.valueOf(String.valueOf(status.getText())));
+                    newTask.put("status", incomingStatus.getId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -73,7 +77,7 @@ public class NewTaskFormActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         board.addTask(freshCreatedTask);
-                        Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), TestActivity.class);
                         intent.putExtra("targetBoard", board);
                         startActivity(intent);
                         finish();
