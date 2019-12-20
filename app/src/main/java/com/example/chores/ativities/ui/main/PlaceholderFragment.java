@@ -53,6 +53,7 @@ public class PlaceholderFragment extends Fragment {
             bundle.putSerializable("status", null);
         } else {
             bundle.putSerializable("status", board.getStatuses().get(counter));
+            counter++;
         }
         fragment.setArguments(bundle);
         currentBoard = board;
@@ -87,14 +88,14 @@ public class PlaceholderFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_tasks, container, false);
 
         tasksViewModel = ViewModelProviders.of(this).get(TasksViewModel.class);
-        ArrayList<Task> tasks = ViewModelProviders.of(this).get(TasksViewModel.class).getTasks();
-
 
         createTaskButton = root.findViewById(R.id.new_task_button);
         recyclerView = root.findViewById(R.id.recyclerViewTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new TaskRecyclerViewAdapter(currentBoard.getTasks(), itemClickListener);
+        ArrayList<Task> tasks = sortTasks();
+
+        adapter = new TaskRecyclerViewAdapter(tasks, itemClickListener);
         recyclerView.setAdapter(adapter);
 
         createTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -108,5 +109,18 @@ public class PlaceholderFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private ArrayList<Task> sortTasks() {
+        ArrayList<Task> returningList = new ArrayList<>();
+
+        for (int i = 0; i < currentBoard.getTasks().size(); i++) {
+            if (status.getStatusString().equals(currentBoard.getTasks().get(i).getStatus())) {
+                Log.d("adsf", "sortTasks: " + status.getStatusString());
+                returningList.add(currentBoard.getTasks().get(i));
+            }
+        }
+
+        return returningList;
     }
 }
