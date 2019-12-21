@@ -16,8 +16,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chores.AppController;
 import com.example.chores.R;
 import com.example.chores.ativities.BoardActivity;
+import com.example.chores.ativities.TestActivity;
 import com.example.chores.classes.Board;
 import com.example.chores.classes.User;
+import com.example.chores.ui.boards.BoardsFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +69,9 @@ public class NewBoardFormActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
+                        currentUser.getBoards().add(freshCreatedBoard);
+
+                        Intent intent = new Intent(getApplicationContext(), TestActivity.class);
                         intent.putExtra("targetBoard", freshCreatedBoard);
                         startActivity(intent);
                         finish();

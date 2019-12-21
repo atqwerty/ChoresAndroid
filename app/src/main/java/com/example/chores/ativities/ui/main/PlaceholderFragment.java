@@ -65,6 +65,7 @@ public class PlaceholderFragment extends Fragment {
         public void onItemClick(Task task, int position) {
             Intent intent = new Intent(getActivity(), TaskActivity.class);
             intent.putExtra("targetTask", task);
+            counter = 0;
             startActivity(intent);
         }
     };
@@ -101,6 +102,7 @@ public class PlaceholderFragment extends Fragment {
         createTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                counter = 0;
                 Intent intent = new Intent(getContext(), NewTaskFormActivity.class);
                 intent.putExtra("board", currentBoard);
                 intent.putExtra("status", status);
