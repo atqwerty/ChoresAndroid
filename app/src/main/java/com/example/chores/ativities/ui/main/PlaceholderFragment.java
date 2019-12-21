@@ -125,4 +125,8 @@ public class PlaceholderFragment extends Fragment {
 
         return returningList;
     }
+
+    public static void setCounter(int incomingValue) {
+        counter = incomingValue;
+    }
 }

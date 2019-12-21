@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.chores.R;
+import com.example.chores.ativities.ui.main.PlaceholderFragment;
 import com.example.chores.classes.Board;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;

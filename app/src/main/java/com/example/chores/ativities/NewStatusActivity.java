@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chores.AppController;
 import com.example.chores.R;
+import com.example.chores.ativities.ui.main.PlaceholderFragment;
 import com.example.chores.classes.Board;
 import com.example.chores.classes.Status;
 
@@ -54,9 +55,10 @@ public class NewStatusActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                    currentBoard.addStatus(new Status(response.getInt("ID"),
+                                    currentBoard.addStatus(new Status(response.getInt("id"),
                                             response.getString("status")));
-                                    Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
+                                    PlaceholderFragment.setCounter(0);
+                                    Intent intent = new Intent(getApplicationContext(), TestActivity.class);
                                     intent.putExtra("targetBoard", currentBoard);
                                     startActivity(intent);
                                 } catch (JSONException e) {
