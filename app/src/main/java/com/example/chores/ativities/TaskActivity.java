@@ -1,10 +1,13 @@
 package com.example.chores.ativities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerTabStrip;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -13,6 +16,8 @@ import android.widget.TextView;
 import com.example.chores.R;
 import com.example.chores.classes.Status;
 import com.example.chores.classes.Task;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -38,8 +43,8 @@ public class TaskActivity extends AppCompatActivity {
         share = this.findViewById(R.id.buttonShare);
         spinner = this.findViewById(R.id.spinner);
 
-        Task a = (Task) getIntent().getSerializableExtra("targetTask");
-        ArrayList<Status> statuses = (ArrayList<Status>) getIntent().getSerializableExtra("statuses");
+        final Task a = (Task) getIntent().getSerializableExtra("targetTask");
+        final ArrayList<Status> statuses = (ArrayList<Status>) getIntent().getSerializableExtra("statuses");
         ArrayList<String> statusNames = new ArrayList<>();
 
         for (int i = 0; i < statuses.size(); i++) {
@@ -55,6 +60,22 @@ public class TaskActivity extends AppCompatActivity {
                 spinner.setSelection(i);
             }
         }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("adsf", "onItemSelected: " + adapterView.getSelectedItem().toString());
+                if (!adapterView.getSelectedItem().toString().equals(a.getStatus())) {
+                    int statusId = getStatusId(a.getStatus(), statuses);
+                    int taskId = a.getId();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         taskName.append(a.getName());
 
@@ -78,6 +99,14 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private int getStatusId(String statusName, ArrayList<Status> statuses) {
+        for (int i = 0; i < statuses.size(); i++) {
+            if (statuses.get(i).getStatusString().equals(statusName)) {
+                return statuses.get(i).getId();
+            }
+        }
     }
 
 }

@@ -51,6 +51,10 @@ public class Task implements Serializable {
         return this.name;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public Notification setName(String name, User changer) {
         this.name = name;
 
