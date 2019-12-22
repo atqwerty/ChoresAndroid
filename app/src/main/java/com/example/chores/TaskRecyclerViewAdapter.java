@@ -2,25 +2,18 @@ package com.example.chores;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.solver.widgets.ConstraintHorizontalLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chores.classes.Board;
-import com.example.chores.classes.MyDragShadowBuilder;
 import com.example.chores.classes.Task;
 
 import java.util.ArrayList;
@@ -93,26 +86,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                     if(itemClickListener != null) {
                         itemClickListener.onItemClick(item, getAdapterPosition());
                     }
-                }
-            });
-
-            this.feed.setOnLongClickListener(new View.OnLongClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
-                @Override
-                public boolean onLongClick(View view) {
-                    view.setTag("asdf");
-                    ClipData.Item item = new ClipData.Item(view.getTag().toString());
-
-                    ClipData dragData = new ClipData(
-                            view.getTag().toString(),
-                            new String[] {ClipDescription.MIMETYPE_TEXT_INTENT},
-                            item
-                    );
-
-                    View.DragShadowBuilder myShadow = new MyDragShadowBuilder(view);
-
-                    view.startDragAndDrop(dragData, myShadow, null, 0);
-                    return true;
                 }
             });
 

@@ -5,11 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.chores.R;
+import com.example.chores.classes.Status;
 import com.example.chores.classes.Task;
+
+import java.util.ArrayList;
 
 public class TaskActivity extends AppCompatActivity {
 
@@ -18,6 +23,8 @@ public class TaskActivity extends AppCompatActivity {
     private TextView description;
     private TextView info;
     private Button share;
+    private Spinner spinner;
+    private static String[] options = {"asdf", "asdhfskadv"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +36,27 @@ public class TaskActivity extends AppCompatActivity {
         description = this.findViewById(R.id.description);
         info = this.findViewById(R.id.info);
         share = this.findViewById(R.id.buttonShare);
+        spinner = this.findViewById(R.id.spinner);
 
         Task a = (Task) getIntent().getSerializableExtra("targetTask");
+        ArrayList<Status> statuses = (ArrayList<Status>) getIntent().getSerializableExtra("statuses");
+        ArrayList<String> statusNames = new ArrayList<>();
+
+        for (int i = 0; i < statuses.size(); i++) {
+            statusNames.add(statuses.get(i).getStatusString());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskActivity.this, android.R.layout.simple_spinner_dropdown_item, statusNames);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        for (int i = 0; i < statuses.size(); i++) {
+            if (statuses.get(i).getStatusString().equals(a.getStatus())) {
+                spinner.setSelection(i);
+            }
+        }
 
         taskName.append(a.getName());
-        status.append(a.getStatus());
 
         if (a.getDescription() != null) {
             description.append(a.getDescription());
