@@ -125,7 +125,7 @@ public class TaskActivity extends AppCompatActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                
+
                             }
                         }, new Response.ErrorListener() {
                         @Override
@@ -144,6 +144,7 @@ public class TaskActivity extends AppCompatActivity {
                 return statuses.get(i).getId();
             }
         }
+        return 0;
     }
 
 }
