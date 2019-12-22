@@ -116,20 +116,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                 }
             });
 
-            this.feed.setOnDragListener(new View.OnDragListener() {
-                @Override
-                public boolean onDrag(View view, DragEvent dragEvent) {
-                    final int action = dragEvent.getAction();
-
-                    switch (action) {
-                        case DragEvent.ACTION_DRAG_STARTED:
-                            Log.d("adsf", "onDrag: started");
-                            break;
-                    }
-
-                    return false;
-                }
-            });
         }
     }
 
