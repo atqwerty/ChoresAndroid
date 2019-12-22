@@ -40,6 +40,7 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), NewStatusActivity.class);
+                PlaceholderFragment.setCounter(0);
                 intent.putExtra("currentBoard", currentBoard);
                 startActivity(intent);
             }

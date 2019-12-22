@@ -17,7 +17,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.chores.AppController;
 import com.example.chores.R;
+import com.example.chores.classes.Board;
 import com.example.chores.classes.Status;
 import com.example.chores.classes.Task;
 
@@ -55,13 +57,14 @@ public class TaskActivity extends AppCompatActivity {
         taskId = a.getId();
 
         final ArrayList<Status> statuses = (ArrayList<Status>) getIntent().getSerializableExtra("statuses");
+        final Board currentBoard = (Board) getIntent().getSerializableExtra("currentBoard");
         ArrayList<String> statusNames = new ArrayList<>();
 
         for (int i = 0; i < statuses.size(); i++) {
             statusNames.add(statuses.get(i).getStatusString());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskActivity.this, android.R.layout.simple_spinner_dropdown_item, statusNames);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskActivity.this, android.R.layout.simple_spinner_dropdown_item, statusNames);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -76,7 +79,7 @@ public class TaskActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("adsf", "onItemSelected: " + adapterView.getSelectedItem().toString());
                 if (!adapterView.getSelectedItem().toString().equals(a.getStatus())) {
-                    statusId = getStatusId(a.getStatus(), statuses);
+                    statusId = getStatusId(adapterView.getSelectedItem().toString(), statuses);
                     updateStatus.setEnabled(true);
                 }
             }
@@ -112,7 +115,7 @@ public class TaskActivity extends AppCompatActivity {
         updateStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "https://chores-backend-atqwerty.herokuapp.com/board/" + a.getBoard().getId() + "/updateStatus";
+                String url = "https://chores-backend-atqwerty.herokuapp.com/board/" + currentBoard.getId() + "/updateStatus";
                 JSONObject updateTaskStatusInfo = new JSONObject();
                 try {
                     updateTaskStatusInfo.put("status_id", statusId);
@@ -125,14 +128,30 @@ public class TaskActivity extends AppCompatActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-
+                                for (int i = 0; i < statuses.size(); i++) {
+                                    if (statusId == statuses.get(i).getId()) {
+                                        a.setStatus(statuses.get(i).getStatusString());
+                                    }
+                                }
+                                for (int i = 0; i < currentBoard.getTasks().size(); i++) {
+                                    if (currentBoard.getTasks().get(i).getId() == taskId) {
+                                        currentBoard.getTasks().remove(i);
+                                        currentBoard.getTasks().add(a);
+                                    }
+                                }
+                                Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+                                intent.putExtra("targetBoard", currentBoard);
+                                startActivity(intent);
+                                finish();
                             }
                         }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
+                            Log.d("adsf", "onErrorResponse: " + error.getMessage());
                         }
                 });
+
+                AppController.getInstance(getApplicationContext()).addToRequestQueue(req, "update Status");
             }
         });
 
