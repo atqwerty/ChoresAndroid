@@ -141,8 +141,8 @@ public class TaskActivity extends AppCompatActivity {
                                 }
                                 Intent intent = new Intent(getApplicationContext(), TestActivity.class);
                                 intent.putExtra("targetBoard", currentBoard);
-                                startActivity(intent);
                                 finish();
+                                startActivity(intent);
                             }
                         }, new Response.ErrorListener() {
                         @Override
