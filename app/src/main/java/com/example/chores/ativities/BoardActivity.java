@@ -16,10 +16,11 @@ import com.example.chores.TaskRecyclerViewAdapter;
 import com.example.chores.classes.Board;
 import com.example.chores.classes.Task;
 import com.example.chores.ui.forms.NewTaskFormActivity;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 
 public class BoardActivity extends AppCompatActivity {
 
-    private TextView boardName;
     private RecyclerView recyclerView;
     private TaskRecyclerViewAdapter adapter;
     private Button createTaskButton;
@@ -27,10 +28,9 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_board);
+        //setContentView(R.layout.activity_board);
         final Board a = (Board) getIntent().getSerializableExtra("targetBoard");
 
-        boardName = this.findViewById(R.id.boardName);
         createTaskButton = this.findViewById(R.id.new_task_button);
 
         createTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -42,12 +42,9 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-        boardName.setText("Board: " + a.getName());
 
         recyclerView = this.findViewById(R.id.recyclerViewTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(BoardActivity.this));
-
-        Log.d("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "onCreate: " + a.getTasks());
 
         adapter = new TaskRecyclerViewAdapter(a.getTasks(), itemClickListener);
 

@@ -4,35 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EB1360">
+    android:background="#EB1360"
+    tools:context=".ativities.BoardActivity">
+
+    <Button
+        android:id="@+id/new_task_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/clickable"
+        android:text="New Task"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTasks" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycledViewTasks"
+        android:id="@+id/recyclerViewTasks"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:padding="10dp"
-        android:text="Your Tasks:"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:scrollX="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:layout_editor_absoluteX="0dp" />
-
-
-
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

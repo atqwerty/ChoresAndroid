@@ -1,18 +1,19 @@
 package com.example.chores;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.solver.widgets.ConstraintHorizontalLayout;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chores.classes.Board;
 import com.example.chores.classes.Task;
 
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
     @Override
     public int getItemCount() {
+        if (data == null) {
+            return 0;
+        }
         return data.size();
     }
 
@@ -84,6 +88,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                     }
                 }
             });
+
         }
     }
 

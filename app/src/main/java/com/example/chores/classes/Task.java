@@ -51,6 +51,10 @@ public class Task implements Serializable {
         return this.name;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public Notification setName(String name, User changer) {
         this.name = name;
 
@@ -65,10 +69,8 @@ public class Task implements Serializable {
         return this.status;
     }
 
-    public Notification setStatus(String status, User changer) {
+    public void setStatus(String status) {
         this.status = status;
-
-        return new Notification(changer, this.board, this, Notification.Type.TASK_CHANGED_STATUS);
     }
 
     public Board getBoard() {

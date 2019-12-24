@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
+                Log.d("adsf", "onClick: here");
                 login();
                 break;
             case R.id.register:

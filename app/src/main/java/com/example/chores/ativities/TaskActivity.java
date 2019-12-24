@@ -1,15 +1,32 @@
 package com.example.chores.ativities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerTabStrip;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.chores.AppController;
 import com.example.chores.R;
+import com.example.chores.classes.Board;
+import com.example.chores.classes.Status;
 import com.example.chores.classes.Task;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class TaskActivity extends AppCompatActivity {
 
@@ -18,6 +35,9 @@ public class TaskActivity extends AppCompatActivity {
     private TextView description;
     private TextView info;
     private Button share;
+    private Button updateStatus;
+    private Spinner spinner;
+    private int statusId, taskId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +49,48 @@ public class TaskActivity extends AppCompatActivity {
         description = this.findViewById(R.id.description);
         info = this.findViewById(R.id.info);
         share = this.findViewById(R.id.buttonShare);
+        spinner = this.findViewById(R.id.spinner);
+        updateStatus = this.findViewById(R.id.update_status);
 
-        Task a = (Task) getIntent().getSerializableExtra("targetTask");
+        final Task a = (Task) getIntent().getSerializableExtra("targetTask");
+
+        taskId = a.getId();
+
+        final ArrayList<Status> statuses = (ArrayList<Status>) getIntent().getSerializableExtra("statuses");
+        final Board currentBoard = (Board) getIntent().getSerializableExtra("currentBoard");
+        ArrayList<String> statusNames = new ArrayList<>();
+
+        for (int i = 0; i < statuses.size(); i++) {
+            statusNames.add(statuses.get(i).getStatusString());
+        }
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskActivity.this, android.R.layout.simple_spinner_dropdown_item, statusNames);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        for (int i = 0; i < statuses.size(); i++) {
+            if (statuses.get(i).getStatusString().equals(a.getStatus())) {
+                spinner.setSelection(i);
+            }
+        }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("adsf", "onItemSelected: " + adapterView.getSelectedItem().toString());
+                if (!adapterView.getSelectedItem().toString().equals(a.getStatus())) {
+                    statusId = getStatusId(adapterView.getSelectedItem().toString(), statuses);
+                    updateStatus.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         taskName.append(a.getName());
-        status.append(a.getStatus());
 
         if (a.getDescription() != null) {
             description.append(a.getDescription());
@@ -55,6 +112,58 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
 
+        updateStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://chores-backend-atqwerty.herokuapp.com/board/" + currentBoard.getId() + "/updateStatus";
+                JSONObject updateTaskStatusInfo = new JSONObject();
+                try {
+                    updateTaskStatusInfo.put("status_id", statusId);
+                    updateTaskStatusInfo.put("task_id", taskId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, updateTaskStatusInfo,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                for (int i = 0; i < statuses.size(); i++) {
+                                    if (statusId == statuses.get(i).getId()) {
+                                        a.setStatus(statuses.get(i).getStatusString());
+                                    }
+                                }
+                                for (int i = 0; i < currentBoard.getTasks().size(); i++) {
+                                    if (currentBoard.getTasks().get(i).getId() == taskId) {
+                                        currentBoard.getTasks().remove(i);
+                                        currentBoard.getTasks().add(a);
+                                    }
+                                }
+                                Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+                                intent.putExtra("targetBoard", currentBoard);
+                                finish();
+                                startActivity(intent);
+                            }
+                        }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("adsf", "onErrorResponse: " + error.getMessage());
+                        }
+                });
+
+                AppController.getInstance(getApplicationContext()).addToRequestQueue(req, "update Status");
+            }
+        });
+
+    }
+
+    private int getStatusId(String statusName, ArrayList<Status> statuses) {
+        for (int i = 0; i < statuses.size(); i++) {
+            if (statuses.get(i).getStatusString().equals(statusName)) {
+                return statuses.get(i).getId();
+            }
+        }
+        return 0;
     }
 
 }
