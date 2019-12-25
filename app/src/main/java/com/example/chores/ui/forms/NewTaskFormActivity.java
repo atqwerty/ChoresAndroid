@@ -29,7 +29,6 @@ public class NewTaskFormActivity extends AppCompatActivity {
 
     private EditText title;
     private EditText description;
-    private EditText status;
     private Button newTaskButton;
     private Board board;
     private Status incomingStatus;
@@ -45,7 +44,6 @@ public class NewTaskFormActivity extends AppCompatActivity {
 
         title = findViewById(R.id.new_task_title_id);
         description = findViewById(R.id.new_task_decription_id);
-        status = findViewById(R.id.new_task_status_id);
         newTaskButton = findViewById(R.id.new_task_create);
 
         newTaskButton.setOnClickListener(new View.OnClickListener() {
